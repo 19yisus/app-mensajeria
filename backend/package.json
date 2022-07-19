@@ -4,7 +4,10 @@
   "description": "api de app mensajeria",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "cross-env NODE_ENV=dev node ./dist/index.js",
+    "start": "cross-env NODE_ENV=start node ./dist/index.js",
+    "test": "cross-env NODE_ENV=test node ./dist/index.js",
+    "ts": "tsc -w "
   },
   "repository": {
     "type": "git",
