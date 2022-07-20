@@ -90,8 +90,6 @@ class PostgreSql implements postgresql_conexion{
             let result:QueryResult=await cliente.query(SQL)
             return result
         }
-        
-
     }
     
     async cerrarConexion(cliente:PoolClient):Promise<void>{
