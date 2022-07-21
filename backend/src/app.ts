@@ -3,6 +3,8 @@ import dotenv from "dotenv"
 import morgan from "morgan"
 import cors from "cors"
 import path from "path"
+// import rutas
+import RutasPersonaV1 from "./v1/routers/persona"
 
 let app = express()
 let rutaPublic:string=path.resolve(__dirname,"../public")
@@ -21,5 +23,7 @@ app.use(cors())
 .use(morgan("dev"))
 
 // rooters
+// v1
+app.use("/api/v1/persona",RutasPersonaV1)
 
 export default app

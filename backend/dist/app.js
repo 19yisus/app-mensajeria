@@ -8,6 +8,8 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
 const path_1 = __importDefault(require("path"));
+// import rutas
+const persona_1 = __importDefault(require("./v1/routers/persona"));
 let app = (0, express_1.default)();
 let rutaPublic = path_1.default.resolve(__dirname, "../public");
 dotenv_1.default.config({ path: path_1.default.resolve(__dirname, "../.env") });
@@ -24,4 +26,6 @@ app.use((0, cors_1.default)())
     .use(express_1.default.static(rutaPublic))
     .use((0, morgan_1.default)("dev"));
 // rooters
+// v1
+app.use("/api/v1/persona", persona_1.default);
 exports.default = app;
