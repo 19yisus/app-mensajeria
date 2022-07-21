@@ -6,7 +6,7 @@
 
 CREATE TABLE IF NOT EXISTS tpersona(
     id_persona SERIAL,
-    nick_name character varying(140) NOT NULL,
+    nick_name character varying(140) UNIQUE NOT NULL,
     nombre character varying(140) NOT NULL,
     apellido character varying(140) NOT NULL,
     constraint PK_id_persona primary key(id_persona)
@@ -58,6 +58,18 @@ CREATE TABLE IF NOT EXISTS tcuarto(
     nombre_cuarto character varying(140) NOT NULL,
     tipo_cuarto character varying(140) NOT NULL,
     constraint PK_id_cuarto primary key(id_cuarto)
+);
+
+CREATE TABLE IF NOT EXISTS tmensaje(
+        id_mensaje SERIAL,
+        id_cuarto INTEGER NOT NULL,
+        id_usuario INTEGER NOT NULL,
+        mensaje character varying(255) NOT NULL,
+        fecha_mensaje DATE NOT NULL,
+        constraint PK_id_mensaje primary key(id_mensaje),
+        constraint FK_id_cuarto_tmensaje foreign key(id_cuarto) references tcuarto(id_cuarto) ON UPDATE CASCADE ON DELETE CASCADE,
+        constraint FK_id_usuario_tmensaje foreign key(id_usuario) references tusuario(id_usuario) ON UPDATE CASCADE ON DELETE CASCADE
+
 );
 
 CREATE TABLE IF NOT EXISTS tcontacto(

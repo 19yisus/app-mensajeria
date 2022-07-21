@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const pg_1 = require("pg");
 const dotenv_1 = __importDefault(require("dotenv"));
 const path_1 = __importDefault(require("path"));
-dotenv_1.default.config({ path: path_1.default.resolve(__dirname, '../.env') });
+dotenv_1.default.config({ path: path_1.default.resolve(__dirname, '../../.env') });
 let { DB_HOST, DB_PORT, DB_NAME_PRO, DB_NAME_DEV, DB_NAME_TEST, DB_USER, DB_PASS, NODE_ENV } = process.env;
 let DB = (NODE_ENV === "dev") ? DB_NAME_DEV : (NODE_ENV === "test") ? DB_NAME_TEST : DB_NAME_PRO;
 class PostgreSql {

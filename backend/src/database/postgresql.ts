@@ -2,12 +2,11 @@ import postgresql_conexion from "../interfaces/postgresql_conexion"
 import {Pool, PoolClient, QueryResult} from "pg"
 import dotEnv from "dotenv"
 import path from "path"
-dotEnv.config({ path: path.resolve(__dirname, '../.env') })
+dotEnv.config({ path: path.resolve(__dirname, '../../.env') })
 
 let {DB_HOST,DB_PORT,DB_NAME_PRO,DB_NAME_DEV,DB_NAME_TEST,DB_USER,DB_PASS,NODE_ENV} = process.env
 
 let DB = (NODE_ENV==="dev")? DB_NAME_DEV:(NODE_ENV==="test")? DB_NAME_TEST:DB_NAME_PRO
-
 class PostgreSql implements postgresql_conexion{
 
     host: string
