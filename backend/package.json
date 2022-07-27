@@ -8,7 +8,8 @@
     "start": "cross-env NODE_ENV=start node ./dist/index.js",
     "test": "cross-env NODE_ENV=test node ./dist/index.js",
     "nm:dev": "cross-env NODE_ENV=dev nodemon ./dist/index.js",
-    "ts": "tsc -w "
+    "ts": "tsc",
+    "ts:w": "tsc -w "
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
     "moment": "2.29.4",
     "morgan": "1.10.0",
     "pg": "8.7.3",
+    "sjcl": "1.0.8",
     "winston": "3.8.1"
   },
   "devDependencies": {
@@ -38,6 +40,7 @@
     "@types/moment": "2.13.0",
     "@types/morgan": "1.9.3",
     "@types/pg": "8.6.5",
+    "@types/sjcl": "^1.0.30",
     "@types/supertest": "2.0.12",
     "@types/winston": "2.4.4",
     "jest": "28.1.3",

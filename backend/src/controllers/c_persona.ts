@@ -49,7 +49,8 @@ let ControladorPersona = {
     },
 
     consultarPorId:async (req:Request,res:Response) => {
-
+        let { postgresql, cliente } = req.body
+        // let 
     },
 
     consultarPorNickName:async (req:Request,res:Response) => {

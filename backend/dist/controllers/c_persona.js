@@ -55,6 +55,8 @@ let ControladorPersona = {
         }
     }),
     consultarPorId: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        let { postgresql, cliente } = req.body;
+        // let 
     }),
     consultarPorNickName: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }),
