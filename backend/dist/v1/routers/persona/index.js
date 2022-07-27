@@ -13,8 +13,8 @@ router.get("/", (req, res) => {
     res.send(req.baseUrl).status(200);
 });
 router.post("/registrar", crear_conexion_db_pg_1.default, c_persona_1.default.registrar);
-// router.get("/:id")
-// router.get("/nick-name/:nick")
-// router.get("/todo")
-// router.put("/:id")
+router.get("/todo", crear_conexion_db_pg_1.default, c_persona_1.default.consultarTodo);
+router.get("/:id", crear_conexion_db_pg_1.default, c_persona_1.default.consultarPorId);
+router.put("/actualizar/:id", crear_conexion_db_pg_1.default, c_persona_1.default.actualizar);
+router.get("/nick-name/:nickname", crear_conexion_db_pg_1.default, c_persona_1.default.consultarPorNickName);
 exports.default = router;

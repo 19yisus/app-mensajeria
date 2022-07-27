@@ -11,25 +11,21 @@ class ModeloPersona implements personaInterface {
     postgresql:PostgreSql
     cliente:PoolClient
 
-    constructor(postgresql_:PostgreSql,cliente_:PoolClient,persona?:personaInterface){
-        if(persona!==undefined){
-            this.id_persona=persona.id_persona
-            this.nick_name=persona.nick_name
-            this.nombre=persona.nombre
-            this.apellido=persona.nombre
-        }
-        else{
-            this.id_persona=""
-            this.nick_name=""
-            this.nombre=""
-            this.apellido=""
-        }
+    constructor(postgresql_:PostgreSql,cliente_:PoolClient){
+        this.id_persona=""
+        this.nick_name=""
+        this.nombre=""
+        this.apellido=""
         this.postgresql=postgresql_
         this.cliente=cliente_
     }
 
     set setIdPersona(id:string){
         this.id_persona=id
+    }
+
+    set setNickName(nick_name_:string){
+        this.nick_name=nick_name_
     }
 
     get getIdPersona():string{
@@ -56,8 +52,9 @@ class ModeloPersona implements personaInterface {
     }
 
     async consultarPorNickName(){
-        let sql:string = "SELECT * FROM tpersona WHERE nick_name=$1"
-        let datos:string[]=[this.nick_name]
+        // let sql:string = "SELECT * FROM tpersona WHERE nick_name=$1"
+        let sql:string = "SELECT * FROM tpersona WHERE nick_name LIKE $1;"
+        let datos:string[]=["%"+this.nick_name+"%"]
         return await this.postgresql.query(this.cliente,sql,datos)
     }
 
@@ -67,8 +64,8 @@ class ModeloPersona implements personaInterface {
     }
 
     async actualizar() {
-        let sql:string = "UPDATE tpersona SET nick_name=$1,nombre=$2,apellido=$3 WHERE id_persona=$4;"
-        let datos:string[]=[this.nick_name,this.nombre,this.apellido]
+        let sql:string = "UPDATE tpersona SET nick_name=$1,nombre=$2,apellido=$3 WHERE id_persona=$4 RETURNING id_persona;"
+        let datos:string[]=[this.nick_name,this.nombre,this.apellido,this.id_persona]
         return await this.postgresql.query(this.cliente,sql,datos)
     }
 

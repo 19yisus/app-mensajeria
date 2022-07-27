@@ -12,12 +12,14 @@ router.get("/",(req:Request,res:Response) => {
 
 router.post("/registrar",crearConexionDBPG,ControladorPersona.registrar)
 
-// router.get("/:id")
+router.get("/todo",crearConexionDBPG,ControladorPersona.consultarTodo)
 
-// router.get("/nick-name/:nick")
+router.get("/:id",crearConexionDBPG,ControladorPersona.consultarPorId)
 
-// router.get("/todo")
+router.put("/actualizar/:id",crearConexionDBPG,ControladorPersona.actualizar)
 
-// router.put("/:id")
+router.get("/nick-name/:nickname",crearConexionDBPG,ControladorPersona.consultarPorNickName)
+
+
 
 export default router

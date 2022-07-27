@@ -1,13 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -19,6 +10,13 @@ dotenv_1.default.config({ path: path_1.default.resolve(__dirname, '../../.env') 
 let { DB_HOST, DB_PORT, DB_NAME_PRO, DB_NAME_DEV, DB_NAME_TEST, DB_USER, DB_PASS, NODE_ENV } = process.env;
 let DB = (NODE_ENV === "dev") ? DB_NAME_DEV : (NODE_ENV === "test") ? DB_NAME_TEST : DB_NAME_PRO;
 class PostgreSql {
+    host;
+    port;
+    db_name;
+    user;
+    pass;
+    config;
+    pool;
     constructor() {
         this.host = (DB_HOST) ? DB_HOST : "";
         this.port = (DB_PORT) ? DB_PORT : "";
@@ -64,29 +62,23 @@ class PostgreSql {
     get getPass() {
         return this.pass;
     }
-    conectar() {
-        return __awaiter(this, void 0, void 0, function* () {
-            let cliente = yield this.pool.connect();
-            return cliente;
-        });
+    async conectar() {
+        let cliente = await this.pool.connect();
+        return cliente;
     }
-    query(cliente, SQL, datos) {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (datos) {
-                let result = yield cliente.query(SQL, datos);
-                return result;
-            }
-            else {
-                let result = yield cliente.query(SQL);
-                return result;
-            }
-        });
+    async query(cliente, SQL, datos) {
+        if (datos) {
+            let result = await cliente.query(SQL, datos);
+            return result;
+        }
+        else {
+            let result = await cliente.query(SQL);
+            return result;
+        }
     }
-    cerrarConexion(cliente) {
-        return __awaiter(this, void 0, void 0, function* () {
-            cliente.release();
-            this.pool.end();
-        });
+    async cerrarConexion(cliente) {
+        cliente.release();
+        this.pool.end();
     }
 }
 exports.default = PostgreSql;

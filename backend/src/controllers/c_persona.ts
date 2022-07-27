@@ -8,13 +8,13 @@ import ModeloPersona from "../models/m_persona"
 let ControladorPersona = {
 
     registrar:async (req:Request,res:Response) => {
-        let { postgresql, cliente } = req.body
-        let { nick_name, nombre, apellido } = req.body
         let respuesta:respuestaServidor={
             codigo_respuesta:0,
             tipo_mensaje:"",
             mensaje_respuesta:"",
         }
+        let { postgresql, cliente } = req.body
+        let { nick_name, nombre, apellido } = req.body
         let persona:personaInterface={
             id_persona:"",
             nick_name,
@@ -49,25 +49,136 @@ let ControladorPersona = {
     },
 
     consultarPorId:async (req:Request,res:Response) => {
+        let respuesta:respuestaServidor={
+            codigo_respuesta:0,
+            tipo_mensaje:"",
+            mensaje_respuesta:"",
+            datos_respuesta:[]
+        }
         let { postgresql, cliente } = req.body
-        // let 
+        let { id } = req.params
+        let persona:ModeloPersona= new ModeloPersona(postgresql,cliente)
+        persona.setIdPersona=id
+        let resultPersona=await persona.consultarPorId()
+        postgresql.cerrarConexion(cliente)
+        if(resultPersona.rowCount>0){
+            respuesta.codigo_respuesta=200
+            respuesta.tipo_mensaje="success"
+            respuesta.mensaje_respuesta="consulta completada"
+            respuesta.datos_respuesta=resultPersona.rows
+            res.status(200).json(respuesta)
+        }
+        else{
+            respuesta.codigo_respuesta=404
+            respuesta.tipo_mensaje="danger"
+            respuesta.mensaje_respuesta="el recurso no a sido encontrado"
+            res.status(404).json(respuesta)
+        }
+
     },
 
     consultarPorNickName:async (req:Request,res:Response) => {
-
+        let respuesta:respuestaServidor={
+            codigo_respuesta:0,
+            tipo_mensaje:"",
+            mensaje_respuesta:"",
+            datos_respuesta:[]
+        }
+        let { postgresql, cliente } = req.body
+        let { nickname } = req.params
+        let persona:ModeloPersona= new ModeloPersona(postgresql,cliente)
+        persona.setNickName=nickname
+        let resultPersona=await persona.consultarPorNickName()
+        postgresql.cerrarConexion(cliente)
+        if(resultPersona.rowCount>0){
+            respuesta.codigo_respuesta=200
+            respuesta.tipo_mensaje="success"
+            respuesta.mensaje_respuesta="consulta completada"
+            respuesta.datos_respuesta=resultPersona.rows
+            res.status(200).json(respuesta)
+        }
+        else{
+            respuesta.codigo_respuesta=404
+            respuesta.tipo_mensaje="danger"
+            respuesta.mensaje_respuesta="el recurso no a sido encontrado"
+            res.status(404).json(respuesta)
+        }
     },
 
     consultarTodo:async (req:Request,res:Response) => {
-
+        let respuesta:respuestaServidor={
+            codigo_respuesta:0,
+            tipo_mensaje:"",
+            mensaje_respuesta:"",
+            datos_respuesta:[]
+        }
+        let { postgresql, cliente } = req.body
+        let persona:ModeloPersona= new ModeloPersona(postgresql,cliente)
+        let resultPersona=await persona.consultarTodo()
+        postgresql.cerrarConexion(cliente)
+        if(resultPersona.rowCount>0){
+            respuesta.codigo_respuesta=200
+            respuesta.tipo_mensaje="success"
+            respuesta.mensaje_respuesta="consulta completada"
+            respuesta.datos_respuesta=resultPersona.rows
+            res.status(200).json(respuesta)
+        }
+        else{
+            respuesta.codigo_respuesta=404
+            respuesta.tipo_mensaje="danger"
+            respuesta.mensaje_respuesta="el recurso no a sido encontrado"
+            res.status(404).json(respuesta)
+        }
     },
 
     actualizar:async (req:Request,res:Response) => {
-
+        let respuesta:respuestaServidor={
+            codigo_respuesta:0,
+            tipo_mensaje:"",
+            mensaje_respuesta:""
+        }
+        let { postgresql, cliente } = req.body
+        let { id_persona, nick_name, nombre, apellido } = req.body
+        let { id } = req.params
+        if(id_persona===id){
+            let persona_obj:personaInterface={
+                id_persona,
+                nick_name,
+                nombre, 
+                apellido
+            }
+            let persona:ModeloPersona= new ModeloPersona(postgresql,cliente)
+            persona.setIdPersona=id
+            let resultPersona=await persona.consultarPorId()
+            if(resultPersona.rowCount===1){
+                persona.setDatos=persona_obj
+                let resultPersona2=await persona.actualizar()
+                postgresql.cerrarConexion(cliente)
+                if(resultPersona2.rowCount===1){
+                    respuesta.codigo_respuesta=200
+                    respuesta.tipo_mensaje="success"
+                    respuesta.mensaje_respuesta="recurso actualizado"
+                    res.status(200).json(respuesta)
+                }
+            }
+            else{
+                respuesta.codigo_respuesta=404
+                respuesta.tipo_mensaje="danger"
+                respuesta.mensaje_respuesta="el recurso no a sido encontrado"
+                res.status(404).json(respuesta)
+            }
+        }
+        else{
+            respuesta.codigo_respuesta=400
+            respuesta.tipo_mensaje="danger"
+            respuesta.mensaje_respuesta="el id no coincide"
+            res.status(400).json(respuesta)
+        }
     },
 
-    eliminar:async (req:Request,res:Response) => {
+    // eliminar:async (req:Request,res:Response) => {
 
-    },
+    // },
 
 
 
