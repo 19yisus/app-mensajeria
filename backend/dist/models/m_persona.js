@@ -1,11 +1,16 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const moment_1 = __importDefault(require("moment"));
 class ModeloPersona {
     id_persona;
     nick_name;
     nombre;
     apellido;
     estado_persona;
+    fecha_creacion;
     postgresql;
     cliente;
     constructor(postgresql_, cliente_) {
@@ -14,6 +19,7 @@ class ModeloPersona {
         this.nombre = "";
         this.apellido = "";
         this.estado_persona = "";
+        this.fecha_creacion = "";
         this.postgresql = postgresql_;
         this.cliente = cliente_;
     }
@@ -33,8 +39,9 @@ class ModeloPersona {
         this.apellido = persona.apellido;
     }
     async registrar() {
-        let sql = "INSERT INTO tpersona(nick_name,nombre,apellido,estado_persona) VALUES ($1,$2,$3,$4);";
-        let datos = [this.nick_name, this.nombre, this.apellido, '1'];
+        let sql = "INSERT INTO tpersona(nick_name,nombre,apellido,estado_persona,fecha_creacion) VALUES ($1,$2,$3,$4,$5);";
+        let fecha = (0, moment_1.default)().format("YYYY-MM-DD");
+        let datos = [this.nick_name, this.nombre, this.apellido, '1', fecha];
         return await this.postgresql.query(this.cliente, sql, datos);
     }
     async consultarPorId() {
@@ -42,10 +49,16 @@ class ModeloPersona {
         let datos = [this.id_persona];
         return await this.postgresql.query(this.cliente, sql, datos);
     }
-    async consultarPorNickName() {
+    async buscarPorNickName() {
         // let sql:string = "SELECT * FROM tpersona WHERE nick_name=$1"
         let sql = "SELECT * FROM tpersona WHERE nick_name LIKE $1;";
         let datos = ["%" + this.nick_name + "%"];
+        return await this.postgresql.query(this.cliente, sql, datos);
+    }
+    async consultarPorNickName() {
+        // let sql:string = "SELECT * FROM tpersona WHERE nick_name=$1"
+        let sql = "SELECT * FROM tpersona WHERE nick_name=$1;";
+        let datos = [this.nick_name];
         return await this.postgresql.query(this.cliente, sql, datos);
     }
     async consultarTodo() {

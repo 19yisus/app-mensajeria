@@ -18,7 +18,9 @@ router.get("/:id",crearConexionDBPG,ControladorPersona.consultarPorId)
 
 router.put("/actualizar/:id",crearConexionDBPG,ControladorPersona.actualizar)
 
-router.get("/nick-name/:nickname",crearConexionDBPG,ControladorPersona.consultarPorNickName)
+router.get("/consultar/:nickname",crearConexionDBPG,ControladorPersona.consultarPorNickName)
+
+router.get("/buscar/:nickname",crearConexionDBPG,ControladorPersona.buscarPorNickName)
 
 
 

@@ -1,10 +1,10 @@
--- CREATE DATABASE app_mensajeria_prod;
--- CREATE DATABASE app_mensajeria_dev;
--- CREATE DATABASE app_mensajeria_test;
-
 -- DROP DATABASE app_mensajeria_prod;
 -- DROP DATABASE app_mensajeria_dev;
 -- DROP DATABASE app_mensajeria_test;
+
+-- CREATE DATABASE app_mensajeria_prod;
+-- CREATE DATABASE app_mensajeria_dev;
+-- CREATE DATABASE app_mensajeria_test;
 
 CREATE TABLE IF NOT EXISTS tpersona(
     id_persona SERIAL,
@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS tpersona(
     nombre character varying(140) NOT NULL,
     apellido character varying(140) NOT NULL,
     estado_persona character(1) NOT NULL,
+    fecha_creacion DATE NOT NULL,
     constraint PK_id_persona primary key(id_persona)
 );
 

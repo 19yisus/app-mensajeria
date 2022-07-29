@@ -1,3 +1,4 @@
+import moment from "moment"
 import { PoolClient, QueryResult } from "pg"
 import PostgreSql from "../database/postgresql"
 import personaInterface from "../interfaces/types/models/persona"
@@ -9,6 +10,7 @@ class ModeloPersona implements personaInterface {
     nombre:string
     apellido:string
     estado_persona:string
+    fecha_creacion:string
     postgresql:PostgreSql
     cliente:PoolClient
 
@@ -18,6 +20,7 @@ class ModeloPersona implements personaInterface {
         this.nombre=""
         this.apellido=""
         this.estado_persona=""
+        this.fecha_creacion=""
         this.postgresql=postgresql_
         this.cliente=cliente_
     }
@@ -42,8 +45,9 @@ class ModeloPersona implements personaInterface {
     }
 
     async registrar():Promise<QueryResult>{
-        let sql:string = "INSERT INTO tpersona(nick_name,nombre,apellido,estado_persona) VALUES ($1,$2,$3,$4);"
-        let datos:string[]=[this.nick_name,this.nombre,this.apellido,'1']
+        let sql:string = "INSERT INTO tpersona(nick_name,nombre,apellido,estado_persona,fecha_creacion) VALUES ($1,$2,$3,$4,$5);"
+        let fecha : string = moment().format("YYYY-MM-DD")
+        let datos:string[]=[this.nick_name,this.nombre,this.apellido,'1',fecha]
         return await this.postgresql.query(this.cliente,sql,datos)
     }
 
@@ -53,10 +57,17 @@ class ModeloPersona implements personaInterface {
         return await this.postgresql.query(this.cliente,sql,datos)
     }
 
-    async consultarPorNickName(){
+    async buscarPorNickName(){
         // let sql:string = "SELECT * FROM tpersona WHERE nick_name=$1"
         let sql:string = "SELECT * FROM tpersona WHERE nick_name LIKE $1;"
         let datos:string[]=["%"+this.nick_name+"%"]
+        return await this.postgresql.query(this.cliente,sql,datos)
+    }
+
+    async consultarPorNickName(){
+        // let sql:string = "SELECT * FROM tpersona WHERE nick_name=$1"
+        let sql:string = "SELECT * FROM tpersona WHERE nick_name=$1;"
+        let datos:string[]=[this.nick_name]
         return await this.postgresql.query(this.cliente,sql,datos)
     }
 
