@@ -3,6 +3,7 @@ interface personaInterface{
     nick_name: string,
     nombre: string,
     apellido: string 
+    estado_persona?: string
 }
 
 export default personaInterface

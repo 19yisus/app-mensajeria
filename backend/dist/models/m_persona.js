@@ -5,6 +5,7 @@ class ModeloPersona {
     nick_name;
     nombre;
     apellido;
+    estado_persona;
     postgresql;
     cliente;
     constructor(postgresql_, cliente_) {
@@ -12,6 +13,7 @@ class ModeloPersona {
         this.nick_name = "";
         this.nombre = "";
         this.apellido = "";
+        this.estado_persona = "";
         this.postgresql = postgresql_;
         this.cliente = cliente_;
     }
@@ -31,8 +33,8 @@ class ModeloPersona {
         this.apellido = persona.apellido;
     }
     async registrar() {
-        let sql = "INSERT INTO tpersona(nick_name,nombre,apellido) VALUES ($1,$2,$3);";
-        let datos = [this.nick_name, this.nombre, this.apellido];
+        let sql = "INSERT INTO tpersona(nick_name,nombre,apellido,estado_persona) VALUES ($1,$2,$3,$4);";
+        let datos = [this.nick_name, this.nombre, this.apellido, '1'];
         return await this.postgresql.query(this.cliente, sql, datos);
     }
     async consultarPorId() {
@@ -53,6 +55,16 @@ class ModeloPersona {
     async actualizar() {
         let sql = "UPDATE tpersona SET nick_name=$1,nombre=$2,apellido=$3 WHERE id_persona=$4 RETURNING id_persona;";
         let datos = [this.nick_name, this.nombre, this.apellido, this.id_persona];
+        return await this.postgresql.query(this.cliente, sql, datos);
+    }
+    async activarPersona() {
+        let sql = "UPDATE tpersona SET estado_persona=$1 WHERE id_persona=$2 RETURNING id_persona;";
+        let datos = ['1', this.id_persona];
+        return await this.postgresql.query(this.cliente, sql, datos);
+    }
+    async desactivarPersona() {
+        let sql = "UPDATE tpersona SET estado_persona=$1 WHERE id_persona=$2 RETURNING id_persona;";
+        let datos = ['0', this.id_persona];
         return await this.postgresql.query(this.cliente, sql, datos);
     }
     async eliminar() {

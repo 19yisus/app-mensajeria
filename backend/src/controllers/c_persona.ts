@@ -1,6 +1,5 @@
 import { Request, Response } from "express"
 import { QueryResult } from "pg"
-import { Console } from "winston/lib/winston/transports"
 import personaInterface from "../interfaces/types/models/persona"
 import respuestaServidor from "../interfaces/types/respuesta_servidor"
 import ModeloPersona from "../models/m_persona"
@@ -21,7 +20,6 @@ let ControladorPersona = {
             nombre, 
             apellido
         }
-        console.log(persona)
         let persona_modelo:ModeloPersona=new ModeloPersona(postgresql,cliente)
         persona_modelo.setDatos=persona
         let result:QueryResult=await persona_modelo.consultarPorNickName()
@@ -29,7 +27,7 @@ let ControladorPersona = {
             respuesta={
                 codigo_respuesta:400,
                 tipo_mensaje:"warning",
-                mensaje_respuesta:"el registro puedo ser procesado por que le nick '"+persona.nick_name+"' ya esta en uso",
+                mensaje_respuesta:"el registro no pudo ser procesado por que el nick '"+persona.nick_name+"' ya esta en uso",
             }
             await postgresql.cerrarConexion(cliente)
             res.status(400).json(respuesta)

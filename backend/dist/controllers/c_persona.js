@@ -19,7 +19,6 @@ let ControladorPersona = {
             nombre,
             apellido
         };
-        console.log(persona);
         let persona_modelo = new m_persona_1.default(postgresql, cliente);
         persona_modelo.setDatos = persona;
         let result = await persona_modelo.consultarPorNickName();
@@ -27,7 +26,7 @@ let ControladorPersona = {
             respuesta = {
                 codigo_respuesta: 400,
                 tipo_mensaje: "warning",
-                mensaje_respuesta: "el registro puedo ser procesado por que le nick '" + persona.nick_name + "' ya esta en uso",
+                mensaje_respuesta: "el registro no pudo ser procesado por que el nick '" + persona.nick_name + "' ya esta en uso",
             };
             await postgresql.cerrarConexion(cliente);
             res.status(400).json(respuesta);
