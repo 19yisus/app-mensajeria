@@ -38,6 +38,7 @@ class ModeloUsuario {
         this.pregunta_2 = usuario.pregunta_2;
         this.respuesta_1 = usuario.respuesta_1;
         this.respuesta_2 = usuario.respuesta_2;
+        this.estado_usuario = usuario.estado_usuario;
     }
     set setIdUsuario(id) {
         this.id_usuario = id;
@@ -58,8 +59,8 @@ class ModeloUsuario {
         this.clave = clave_;
     }
     async registrar() {
-        let sql = "INSERT INTO tusuario(id_persona,correo,telefono,clave,pregunta_1,pregunta_2,respuesta_1,respuesta_2,estado_usuario) VALUES($1,$2,$3,$4,$5,$6,$7,$8);";
-        let datos = [this.id_persona, this.correo, this.telefono, this.clave, this.pregunta_1, this.pregunta_2, this.respuesta_1, this.respuesta_2, this.estado_usuario, '1'];
+        let sql = "INSERT INTO tusuario(id_persona,correo,telefono,clave,pregunta_1,pregunta_2,respuesta_1,respuesta_2,estado_usuario) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING id_usuario;";
+        let datos = [this.id_persona, this.correo, this.telefono, this.clave, this.pregunta_1, this.pregunta_2, this.respuesta_1, this.respuesta_2, '1'];
         return await this.postgresql.query(this.cliente, sql, datos);
     }
     async consultarIdUsuario() {

@@ -8,7 +8,7 @@ interface usuario{
     pregunta_2:string
     respuesta_1:string
     respuesta_2:string,
-    estado_usuario?:string
+    estado_usuario:string
 }
 
 export default usuario

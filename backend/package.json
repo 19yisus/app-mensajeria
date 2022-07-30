@@ -4,10 +4,11 @@
   "description": "api de app mensajeria",
   "main": "index.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=dev node ./dist/index.js",
     "start": "cross-env NODE_ENV=start node ./dist/index.js",
-    "test": "cross-env NODE_ENV=test node ./dist/index.js",
-    "nm:dev": "cross-env NODE_ENV=dev nodemon ./dist/index.js",
+    "test": "cross-env NODE_ENV=test jest ./dist/test",
+    "test:w": "cross-env NODE_ENV=test jest ./dist/test --watch",
+    "dev": "cross-env NODE_ENV=dev node ./dist/index.js",
+    "dev:nm": "cross-env NODE_ENV=dev nodemon ./dist/index.js",
     "ts": "tsc",
     "ts:w": "tsc -w "
   },
@@ -44,6 +45,7 @@
     "@types/supertest": "2.0.12",
     "@types/winston": "2.4.4",
     "jest": "28.1.3",
+    "nodemon": "^2.0.19",
     "supertest": "6.2.4"
   }
 }

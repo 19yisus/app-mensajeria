@@ -5,6 +5,7 @@ import cors from "cors"
 import path from "path"
 // import rutas
 import RutasPersonaV1 from "./v1/routers/persona"
+import RutasUsuarioV1 from "./v1/routers/usuario"
 
 let app = express()
 let rutaPublic:string=path.resolve(__dirname,"../public")
@@ -25,5 +26,6 @@ app.use(cors())
 // rooters
 // v1
 app.use("/api/v1/persona",RutasPersonaV1)
+.use("/api/v1/usuario",RutasUsuarioV1)
 
 export default app

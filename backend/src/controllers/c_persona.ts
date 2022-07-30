@@ -14,7 +14,7 @@ let ControladorPersona = {
         }
         let { postgresql, cliente } = req.body
         let { nick_name, nombre, apellido } = req.body
-        let persona:personaInterface={
+        let persona={
             id_persona:"",
             nick_name,
             nombre, 
@@ -167,7 +167,7 @@ let ControladorPersona = {
         let { id_persona, nick_name, nombre, apellido } = req.body
         let { id } = req.params
         if(id_persona===id){
-            let persona_obj:personaInterface={
+            let persona_obj={
                 id_persona,
                 nick_name,
                 nombre, 

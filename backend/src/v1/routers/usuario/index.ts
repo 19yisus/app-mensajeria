@@ -10,7 +10,6 @@ router.get("/",(req:Request,res:Response) => {
     res.status(200).send(req.baseUrl)
 })
 
-// TODO: registra usuario con clave encriptada
 // TODO: consultar al usuario por su id de usuario
 // TODO: consultar al usuario por su id de persona
 // TODO: consultar todos 
@@ -22,8 +21,9 @@ router.get("/",(req:Request,res:Response) => {
 // TODO: actualizar preguntas
 // TODO: actualizar respuesta de preguntas
 // TODO: consultar preguntas
+// TODO: validar respuestas de seguridad
 
-// router.post("/registrar")
+router.post("/registrar",crearConexionDBPG,CotroladorUsuario.registrar)
 // router.get("/:id")
 // router.get("/todos")
 // router.get("/consultar/id-persona/:id")
@@ -35,6 +35,7 @@ router.get("/",(req:Request,res:Response) => {
 // router.put("/actualizar/pregunta/:numero/:id")
 // router.put("/actualizar/respuesta/:numero/:id")
 // router.get("/consultar-preguntas-seguridad/:id")
+// router.get("/validar-respuestas-seguirdad/:id")
 
 
 
