@@ -55,8 +55,16 @@ class ModeloUsuario  implements usuario {
         this.id_persona=id
     }
 
-    set setTelefono(telefono:string){
-        this.telefono=telefono
+    set setTelefono(telefono_:string){
+        this.telefono=telefono_
+    }
+
+    set setCorreo(correo_:string){
+        this.correo=correo_
+    }
+
+    get getCorreo():string{
+        return this.correo
     }
 
     set setRespuesta1(respuesta_1_:string){

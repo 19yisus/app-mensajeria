@@ -1,18 +1,17 @@
-import sjcl, { SjclCipherEncrypted } from "sjcl";
+import bcryptjs from "bcryptjs"
 import dotEnv from "dotenv";
 import path from "path"
 dotEnv.config({ path: path.resolve(__dirname, '../../.env') })
-let { CLAVE_SECRETA }= process.env
-
-let llaveCifrado=CLAVE_SECRETA as unknown as string
+let { SAL_CRIPTO }= process.env
 
 let cifrado = {
-    cifrarClave : (claveSinCifrar:string) => {
-        const claveCifrada:SjclCipherEncrypted = sjcl.encrypt(llaveCifrado,claveSinCifrar)
-        return claveCifrada
+    cifrarClave : async (claveSinCifrar:string):Promise<string> => {
+        let salt:string=await bcryptjs.genSalt(15)
+        let hash:string=await bcryptjs.hash(claveSinCifrar,salt)
+        return hash
     },
-    decifrarClave : (claveHaComparar:SjclCipherEncrypted) => {
-        return sjcl.decrypt(llaveCifrado,claveHaComparar)
+    compararClave:async (clave:string,calveHash:string):Promise<boolean> =>{
+        return bcryptjs.compare(clave,calveHash)
     }
 }
 

@@ -10,10 +10,7 @@ let router=Router()
 router.get("/",(req:Request,res:Response) => {
     res.status(200).send(req.baseUrl)
 })
-// TODO: activar cuenta
-// TODO: desactivar cuenta
-// TODO: actualizar telefono
-// TODO: actualizar correo
+
 // TODO: actualizar clave
 // TODO: actualizar preguntas
 // TODO: actualizar respuesta de preguntas
@@ -22,15 +19,15 @@ router.get("/",(req:Request,res:Response) => {
 
 router.post("/registrar",crearConexionDBPG,CotroladorUsuario.registrar)
 router.get("/todo",crearConexionDBPG,CotroladorUsuario.consultarTodo)
-router.get("/:id",crearConexionDBPG,ControladorUsuario.consultarUsuarioPorId)
-router.get("/consultar/id-persona/:id",crearConexionDBPG,ControladorUsuario.consultarUsuarioPorIdPersona)
-// router.put("/activar-cuenta/:id")
-// router.put("desactivar-cuenta/:id")
-// router.put("/actualizar/telefono/:id")
-// router.put("/actualizar/correo/:id")
-// router.put("/actualizar/clave/:id")
-// router.put("/actualizar/pregunta/:numero/:id")
-// router.put("/actualizar/respuesta/:numero/:id")
+router.get("/:idUsuario",crearConexionDBPG,ControladorUsuario.consultarUsuarioPorId)
+router.get("/consultar/id-persona/:idPersona",crearConexionDBPG,ControladorUsuario.consultarUsuarioPorIdPersona)
+router.patch("/activar-cuenta/:idUsuario",crearConexionDBPG,ControladorUsuario.activarCuenta)
+router.patch("/desactivar-cuenta/:idUsuario",crearConexionDBPG,ControladorUsuario.desactivarCuenta)
+router.patch("/actualizar/telefono/:idUsuario",crearConexionDBPG,ControladorUsuario.actualizarTelefono)
+router.patch("/actualizar/correo/:idUsuario",crearConexionDBPG,ControladorUsuario.actualizarCorreo)
+// router.patch("/actualizar/clave/:id")
+// router.patch("/actualizar/pregunta/:numero/:id")
+// router.patch("/actualizar/respuesta/:numero/:id")
 // router.get("/consultar-preguntas-seguridad/:id")
 // router.get("/validar-respuestas-seguirdad/:id")
 

@@ -46,8 +46,14 @@ class ModeloUsuario {
     set setIdPersona(id) {
         this.id_persona = id;
     }
-    set setTelefono(telefono) {
-        this.telefono = telefono;
+    set setTelefono(telefono_) {
+        this.telefono = telefono_;
+    }
+    set setCorreo(correo_) {
+        this.correo = correo_;
+    }
+    get getCorreo() {
+        return this.correo;
     }
     set setRespuesta1(respuesta_1_) {
         this.respuesta_1 = respuesta_1_;

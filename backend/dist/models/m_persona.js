@@ -39,7 +39,7 @@ class ModeloPersona {
         this.apellido = persona.apellido;
     }
     async registrar() {
-        let sql = "INSERT INTO tpersona(nick_name,nombre,apellido,estado_persona,fecha_creacion) VALUES ($1,$2,$3,$4,$5) RETURNING id_persona;";
+        let sql = "INSERT INTO tpersona(nick_name,nombre,apellido,estado_persona,fecha_creacion) VALUES ($1,$2,$3,$4,$5);";
         let fecha = (0, moment_1.default)().format("YYYY-MM-DD");
         let datos = [this.nick_name, this.nombre, this.apellido, '1', fecha];
         return await this.postgresql.query(this.cliente, sql, datos);

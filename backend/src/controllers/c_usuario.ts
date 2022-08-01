@@ -39,7 +39,7 @@ const ControladorUsuario = {
             respuesta_2,
             estado_usuario:""
         }
-        usuario.clave=Cifrado.cifrarClave(usuario.clave)
+        usuario.clave=await Cifrado.cifrarClave(usuario.clave)
         let modeloUsuario:ModeloUsuario=new ModeloUsuario(postgresql,cliente)
         modeloUsuario.setDatos=usuario
         let resultUsuario:QueryResult=await modeloUsuario.registrar()
@@ -69,9 +69,9 @@ const ControladorUsuario = {
             mensaje_respuesta:"",
         }
         let { postgresql, cliente } = req.body
-        let {id} = req.params
+        let {idUsuario} = req.params
         let modeloUsuario:ModeloUsuario = new ModeloUsuario(postgresql,cliente)
-        modeloUsuario.setIdUsuario=id
+        modeloUsuario.setIdUsuario=idUsuario
         let resultUsuario:QueryResult=await modeloUsuario.consultarIdUsuario()
         await postgresql.cerrarConexion(cliente)
         if(resultUsuario.rowCount>0){
@@ -130,9 +130,9 @@ const ControladorUsuario = {
             mensaje_respuesta:"",
         }
         let { postgresql, cliente } = req.body
-        let {id} = req.params
+        let {idPersona} = req.params
         let modeloUsuario:ModeloUsuario = new ModeloUsuario(postgresql,cliente)
-        modeloUsuario.setIdPersona=id
+        modeloUsuario.setIdPersona=idPersona
         let resultUsuario:QueryResult=await modeloUsuario.consultarIdPersona()
         await postgresql.cerrarConexion(cliente)
         if(resultUsuario.rowCount>0){
@@ -149,6 +149,134 @@ const ControladorUsuario = {
                 codigo_respuesta:404,
                 tipo_mensaje:"danger",
                 mensaje_respuesta:"error al consultar no se a encontrado el recurso",
+            }
+            res.status(404).json(respuesta)
+        }
+    },
+
+    activarCuenta: async (req:Request,res:Response) => {
+        let respuesta:respuestaServidor={
+            codigo_respuesta:0,
+            tipo_mensaje:"",
+            mensaje_respuesta:"",
+        }
+        let { postgresql, cliente } = req.body
+        let {idUsuario} = req.params
+        let modeloUsuario:ModeloUsuario = new ModeloUsuario(postgresql,cliente)
+        modeloUsuario.setIdUsuario=idUsuario
+        let resultUsuario:QueryResult=await modeloUsuario.activarUsuario()
+        await postgresql.cerrarConexion(cliente)
+        if(resultUsuario.rowCount>0){
+            respuesta={
+                codigo_respuesta:200,
+                tipo_mensaje:"success",
+                mensaje_respuesta:"cuenta activa con exito",
+                datos_respuesta:resultUsuario.rows[0]
+            }
+            res.status(200).json(respuesta)
+        }
+        else{
+            respuesta={
+                codigo_respuesta:404,
+                tipo_mensaje:"danger",
+                mensaje_respuesta:"error al activar la cuenta no se a podido encontra el usuario",
+            }
+            res.status(404).json(respuesta)
+        }
+    },
+
+    desactivarCuenta: async (req:Request,res:Response) => {
+        let respuesta:respuestaServidor={
+            codigo_respuesta:0,
+            tipo_mensaje:"",
+            mensaje_respuesta:"",
+        }
+        let { postgresql, cliente } = req.body
+        let {idUsuario} = req.params
+        let modeloUsuario:ModeloUsuario = new ModeloUsuario(postgresql,cliente)
+        modeloUsuario.setIdUsuario=idUsuario
+        let resultUsuario:QueryResult=await modeloUsuario.desactivarUsuario()
+        await postgresql.cerrarConexion(cliente)
+        if(resultUsuario.rowCount>0){
+            respuesta={
+                codigo_respuesta:200,
+                tipo_mensaje:"success",
+                mensaje_respuesta:"cuenta desactivada con exito",
+                datos_respuesta:resultUsuario.rows[0]
+            }
+            res.status(200).json(respuesta)
+        }
+        else{
+            respuesta={
+                codigo_respuesta:404,
+                tipo_mensaje:"danger",
+                mensaje_respuesta:"error al desactivar la cuenta no se a podido encontra el usuario",
+            }
+            res.status(404).json(respuesta)
+        }
+    },
+
+
+    actualizarTelefono: async (req:Request,res:Response) => {
+        let respuesta:respuestaServidor={
+            codigo_respuesta:0,
+            tipo_mensaje:"",
+            mensaje_respuesta:"",
+        }
+        let { postgresql, cliente } = req.body
+        let {idUsuario} = req.params
+        let { telefono } = req.body
+        let modeloUsuario:ModeloUsuario = new ModeloUsuario(postgresql,cliente)
+        modeloUsuario.setIdUsuario=idUsuario
+        modeloUsuario.setTelefono=telefono
+        let resultUsuario:QueryResult=await modeloUsuario.actualizarTelefono()
+        await postgresql.cerrarConexion(cliente)
+        if(resultUsuario.rowCount>0){
+            respuesta={
+                codigo_respuesta:200,
+                tipo_mensaje:"success",
+                mensaje_respuesta:"telefono actualizado",
+                datos_respuesta:resultUsuario.rows[0]
+            }
+            res.status(200).json(respuesta)
+        }
+        else{
+            respuesta={
+                codigo_respuesta:404,
+                tipo_mensaje:"danger",
+                mensaje_respuesta:"error al actualizar el telefono",
+            }
+            res.status(404).json(respuesta)
+        }
+    },
+
+    actualizarCorreo: async (req:Request,res:Response) => {
+        let respuesta:respuestaServidor={
+            codigo_respuesta:0,
+            tipo_mensaje:"",
+            mensaje_respuesta:"",
+        }
+        let { postgresql, cliente } = req.body
+        let {idUsuario} = req.params
+        let { correo } = req.body
+        let modeloUsuario:ModeloUsuario = new ModeloUsuario(postgresql,cliente)
+        modeloUsuario.setIdUsuario=idUsuario
+        modeloUsuario.setCorreo=correo
+        let resultUsuario:QueryResult=await modeloUsuario.actualizarCorreo()
+        await postgresql.cerrarConexion(cliente)
+        if(resultUsuario.rowCount>0){
+            respuesta={
+                codigo_respuesta:200,
+                tipo_mensaje:"success",
+                mensaje_respuesta:"correo actualizado"
+            }
+            res.status(200).json(respuesta)
+        }
+        else{
+            respuesta={
+                codigo_respuesta:404,
+                tipo_mensaje:"danger",
+                mensaje_respuesta:"error al actualizar el correo",
             }
             res.status(404).json(respuesta)
         }
