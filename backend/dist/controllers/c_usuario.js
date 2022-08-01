@@ -49,6 +49,95 @@ const ControladorUsuario = {
             };
             res.status(400).json(respuesta);
         }
-    }
+    },
+    consultarUsuarioPorId: async (req, res) => {
+        let respuesta = {
+            codigo_respuesta: 0,
+            tipo_mensaje: "",
+            mensaje_respuesta: "",
+        };
+        let { postgresql, cliente } = req.body;
+        let { id } = req.params;
+        let modeloUsuario = new m_usuario_1.default(postgresql, cliente);
+        modeloUsuario.setIdUsuario = id;
+        let resultUsuario = await modeloUsuario.consultarIdUsuario();
+        await postgresql.cerrarConexion(cliente);
+        if (resultUsuario.rowCount > 0) {
+            respuesta = {
+                codigo_respuesta: 200,
+                tipo_mensaje: "success",
+                mensaje_respuesta: "consulta completada",
+                datos_respuesta: resultUsuario.rows[0]
+            };
+            res.status(200).json(respuesta);
+        }
+        else {
+            respuesta = {
+                codigo_respuesta: 404,
+                tipo_mensaje: "danger",
+                mensaje_respuesta: "error al consultar no se a encontrado el recurso",
+            };
+            res.status(404).json(respuesta);
+        }
+    },
+    consultarTodo: async (req, res) => {
+        let respuesta = {
+            codigo_respuesta: 0,
+            tipo_mensaje: "",
+            mensaje_respuesta: "",
+        };
+        let { postgresql, cliente } = req.body;
+        let { id } = req.params;
+        let modeloUsuario = new m_usuario_1.default(postgresql, cliente);
+        let resultUsuario = await modeloUsuario.consultarTodo();
+        await postgresql.cerrarConexion(cliente);
+        if (resultUsuario.rowCount > 0) {
+            respuesta = {
+                codigo_respuesta: 200,
+                tipo_mensaje: "success",
+                mensaje_respuesta: "consulta completada",
+                datos_respuesta: resultUsuario.rows
+            };
+            res.status(200).json(respuesta);
+        }
+        else {
+            respuesta = {
+                codigo_respuesta: 404,
+                tipo_mensaje: "danger",
+                mensaje_respuesta: "error al consultar no se a encontrado el recurso",
+            };
+            res.status(404).json(respuesta);
+        }
+    },
+    consultarUsuarioPorIdPersona: async (req, res) => {
+        let respuesta = {
+            codigo_respuesta: 0,
+            tipo_mensaje: "",
+            mensaje_respuesta: "",
+        };
+        let { postgresql, cliente } = req.body;
+        let { id } = req.params;
+        let modeloUsuario = new m_usuario_1.default(postgresql, cliente);
+        modeloUsuario.setIdPersona = id;
+        let resultUsuario = await modeloUsuario.consultarIdPersona();
+        await postgresql.cerrarConexion(cliente);
+        if (resultUsuario.rowCount > 0) {
+            respuesta = {
+                codigo_respuesta: 200,
+                tipo_mensaje: "success",
+                mensaje_respuesta: "consulta completada",
+                datos_respuesta: resultUsuario.rows[0]
+            };
+            res.status(200).json(respuesta);
+        }
+        else {
+            respuesta = {
+                codigo_respuesta: 404,
+                tipo_mensaje: "danger",
+                mensaje_respuesta: "error al consultar no se a encontrado el recurso",
+            };
+            res.status(404).json(respuesta);
+        }
+    },
 };
 exports.default = ControladorUsuario;

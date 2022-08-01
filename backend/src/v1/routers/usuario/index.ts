@@ -1,4 +1,5 @@
 import { Request, Response, Router } from "express"
+import ControladorUsuario from "../../../controllers/c_usuario"
 // controlador
 import CotroladorUsuario from "../../../controllers/c_usuario"
 // middleware
@@ -9,10 +10,6 @@ let router=Router()
 router.get("/",(req:Request,res:Response) => {
     res.status(200).send(req.baseUrl)
 })
-
-// TODO: consultar al usuario por su id de usuario
-// TODO: consultar al usuario por su id de persona
-// TODO: consultar todos 
 // TODO: activar cuenta
 // TODO: desactivar cuenta
 // TODO: actualizar telefono
@@ -24,9 +21,9 @@ router.get("/",(req:Request,res:Response) => {
 // TODO: validar respuestas de seguridad
 
 router.post("/registrar",crearConexionDBPG,CotroladorUsuario.registrar)
-// router.get("/:id")
-// router.get("/todos")
-// router.get("/consultar/id-persona/:id")
+router.get("/todo",crearConexionDBPG,CotroladorUsuario.consultarTodo)
+router.get("/:id",crearConexionDBPG,ControladorUsuario.consultarUsuarioPorId)
+router.get("/consultar/id-persona/:id",crearConexionDBPG,ControladorUsuario.consultarUsuarioPorIdPersona)
 // router.put("/activar-cuenta/:id")
 // router.put("desactivar-cuenta/:id")
 // router.put("/actualizar/telefono/:id")
