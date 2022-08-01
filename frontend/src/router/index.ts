@@ -15,6 +15,16 @@ const router = createRouter({
       component: () => import('../views/auth/Login.vue')
     },
     {
+      path: '/auth/Create-acount',
+      name: 'Create-acount',
+      component: () => import('../views/auth/CreateAcount.vue')
+    },
+    {
+      path: '/auth/Reset-pass',
+      name: 'Reset-pass',
+      component: () => import('../views/auth/ResetPassword.vue')
+    },
+    {
       path: '/messages',
       name: 'Messages',
       component: () => import('../views/MessagesView.vue')
