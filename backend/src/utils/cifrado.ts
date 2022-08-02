@@ -11,7 +11,7 @@ let cifrado = {
         return hash
     },
     compararClave:async (clave:string,calveHash:string):Promise<boolean> =>{
-        return bcryptjs.compare(clave,calveHash)
+        return await bcryptjs.compare(clave,calveHash)
     }
 }
 

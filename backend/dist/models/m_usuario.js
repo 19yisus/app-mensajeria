@@ -79,6 +79,11 @@ class ModeloUsuario {
         let datos = [this.id_persona];
         return await this.postgresql.query(this.cliente, sql, datos);
     }
+    async consultarPorCorreo() {
+        let sql = "SELECT * FROM tusuario,tpersona WHERE tpersona.id_persona=tusuario.id_persona AND tusuario.correo=$1;";
+        let datos = [this.correo];
+        return await this.postgresql.query(this.cliente, sql, datos);
+    }
     async consultarTodo() {
         let sql = "SELECT * FROM tusuario,tpersona WHERE tpersona.id_persona=tusuario.id_persona;";
         let datos = [];

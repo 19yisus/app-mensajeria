@@ -24,7 +24,7 @@ router.get("/consultar/id-persona/:idPersona",crearConexionDBPG,ControladorUsuar
 router.patch("/activar-cuenta/:idUsuario",crearConexionDBPG,ControladorUsuario.activarCuenta)
 router.patch("/desactivar-cuenta/:idUsuario",crearConexionDBPG,ControladorUsuario.desactivarCuenta)
 router.patch("/actualizar/telefono/:idUsuario",crearConexionDBPG,ControladorUsuario.actualizarTelefono)
-router.patch("/actualizar/correo/:idUsuario",crearConexionDBPG,ControladorUsuario.actualizarCorreo)
+// router.patch("/actualizar/correo/:idUsuario",crearConexionDBPG,ControladorUsuario.actualizarCorreo)
 // router.patch("/actualizar/clave/:id")
 // router.patch("/actualizar/pregunta/:numero/:id")
 // router.patch("/actualizar/respuesta/:numero/:id")

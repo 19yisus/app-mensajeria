@@ -1,6 +1,5 @@
 import { Request, Response } from "express"
 import { QueryResult } from "pg"
-import personaInterface from "../interfaces/types/models/persona"
 import respuestaServidor from "../interfaces/types/respuesta_servidor"
 import ModeloPersona from "../models/m_persona"
 

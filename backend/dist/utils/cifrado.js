@@ -15,7 +15,7 @@ let cifrado = {
         return hash;
     },
     compararClave: async (clave, calveHash) => {
-        return bcryptjs_1.default.compare(clave, calveHash);
+        return await bcryptjs_1.default.compare(clave, calveHash);
     }
 };
 exports.default = cifrado;

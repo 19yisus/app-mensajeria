@@ -97,6 +97,12 @@ class ModeloUsuario  implements usuario {
         return await this.postgresql.query(this.cliente,sql,datos)
     }
 
+    async consultarPorCorreo():Promise<QueryResult>{
+        let sql:string= "SELECT * FROM tusuario,tpersona WHERE tpersona.id_persona=tusuario.id_persona AND tusuario.correo=$1;"
+        let datos :string[] = [this.correo]
+        return await this.postgresql.query(this.cliente,sql,datos)
+    }
+
     async consultarTodo():Promise<QueryResult>{
         let sql:string= "SELECT * FROM tusuario,tpersona WHERE tpersona.id_persona=tusuario.id_persona;"
         let datos :string[] = []

@@ -5,6 +5,7 @@ interface respuestaServidor{
     mensaje_respuesta:string,
     detalle_respuesta?:object,
     datos_respuesta?:object
+    token?:string
 }
 
 export default respuestaServidor

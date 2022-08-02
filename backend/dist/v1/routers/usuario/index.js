@@ -25,7 +25,7 @@ router.get("/consultar/id-persona/:idPersona", crear_conexion_db_pg_1.default, c
 router.patch("/activar-cuenta/:idUsuario", crear_conexion_db_pg_1.default, c_usuario_1.default.activarCuenta);
 router.patch("/desactivar-cuenta/:idUsuario", crear_conexion_db_pg_1.default, c_usuario_1.default.desactivarCuenta);
 router.patch("/actualizar/telefono/:idUsuario", crear_conexion_db_pg_1.default, c_usuario_1.default.actualizarTelefono);
-router.patch("/actualizar/correo/:idUsuario", crear_conexion_db_pg_1.default, c_usuario_1.default.actualizarCorreo);
+// router.patch("/actualizar/correo/:idUsuario",crearConexionDBPG,ControladorUsuario.actualizarCorreo)
 // router.patch("/actualizar/clave/:id")
 // router.patch("/actualizar/pregunta/:numero/:id")
 // router.patch("/actualizar/respuesta/:numero/:id")
