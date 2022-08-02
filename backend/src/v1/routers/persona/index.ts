@@ -3,6 +3,7 @@ import { Request, Response, Router } from "express";
 import ControladorPersona from "../../../controllers/c_persona";
 // middleware
 import crearConexionDBPG from "../../../middlewares/crear_conexion_db_pg"
+import validarToken from "../../../middlewares/oauth"
 
 let router=Router()
 
@@ -12,15 +13,15 @@ router.get("/",(req:Request,res:Response) => {
 
 router.post("/registrar",crearConexionDBPG,ControladorPersona.registrar)
 
-router.get("/todo",crearConexionDBPG,ControladorPersona.consultarTodo)
+router.get("/todo",validarToken,crearConexionDBPG,ControladorPersona.consultarTodo)
 
-router.get("/:id",crearConexionDBPG,ControladorPersona.consultarPorId)
+router.get("/:id",validarToken,crearConexionDBPG,ControladorPersona.consultarPorId)
 
-router.put("/actualizar/:id",crearConexionDBPG,ControladorPersona.actualizar)
+router.put("/actualizar/:id",validarToken,crearConexionDBPG,ControladorPersona.actualizar)
 
-router.get("/consultar/:nickname",crearConexionDBPG,ControladorPersona.consultarPorNickName)
+router.get("/consultar/:nickname",validarToken,crearConexionDBPG,ControladorPersona.consultarPorNickName)
 
-router.get("/buscar/:nickname",crearConexionDBPG,ControladorPersona.buscarPorNickName)
+router.get("/buscar/:nickname",validarToken,crearConexionDBPG,ControladorPersona.buscarPorNickName)
 
 
 

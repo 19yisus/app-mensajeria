@@ -6,7 +6,7 @@ dotEnv.config({ path: path.resolve(__dirname, '../../.env') })
 const CLAVE_SECRETA = process.env.CLAVE_SECRETA
 let llave =CLAVE_SECRETA as unknown as string
 
-const JWToken = {
+const token_utilidad = {
 
     crearToken:(datosPayLoad:any):string=> {
         const payload = datosPayLoad
@@ -21,4 +21,4 @@ const JWToken = {
 
 }
 
-export default JWToken
+export default token_utilidad

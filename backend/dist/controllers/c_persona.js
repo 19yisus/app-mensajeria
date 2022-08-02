@@ -51,7 +51,7 @@ let ControladorPersona = {
             mensaje_respuesta: "",
             datos_respuesta: []
         };
-        let { postgresql, cliente } = req.body;
+        let { postgresql, cliente, token } = req.body;
         let { id } = req.params;
         let persona = new m_persona_1.default(postgresql, cliente);
         persona.setIdPersona = id;
@@ -156,12 +156,12 @@ let ControladorPersona = {
             tipo_mensaje: "",
             mensaje_respuesta: ""
         };
-        let { postgresql, cliente } = req.body;
-        let { id_persona, nick_name, nombre, apellido } = req.body;
+        let { postgresql, cliente, token } = req.body;
+        let { nick_name, nombre, apellido } = req.body;
         let { id } = req.params;
-        if (id_persona === id) {
+        if (token.id_persona == id) {
             let persona_obj = {
-                id_persona,
+                id_persona: token.id_persona,
                 nick_name,
                 nombre,
                 apellido

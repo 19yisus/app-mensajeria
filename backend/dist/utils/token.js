@@ -9,7 +9,7 @@ const path_1 = __importDefault(require("path"));
 dotenv_1.default.config({ path: path_1.default.resolve(__dirname, '../../.env') });
 const CLAVE_SECRETA = process.env.CLAVE_SECRETA;
 let llave = CLAVE_SECRETA;
-const JWToken = {
+const token_utilidad = {
     crearToken: (datosPayLoad) => {
         const payload = datosPayLoad;
         let token = jsonwebtoken_1.default.sign(payload, llave);
@@ -20,4 +20,4 @@ const JWToken = {
         return payload;
     }
 };
-exports.default = JWToken;
+exports.default = token_utilidad;

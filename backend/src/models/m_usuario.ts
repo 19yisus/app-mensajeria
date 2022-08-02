@@ -80,33 +80,122 @@ class ModeloUsuario  implements usuario {
     }
 
     async registrar():Promise<QueryResult>{
-        let sql:string = "INSERT INTO tusuario(id_persona,correo,telefono,clave,pregunta_1,pregunta_2,respuesta_1,respuesta_2,estado_usuario) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING id_usuario;"
+        let sql:string = `INSERT INTO tusuario(
+            id_persona,
+            correo,
+            telefono,
+            clave,
+            pregunta_1,
+            pregunta_2,
+            respuesta_1,
+            respuesta_2,
+            estado_usuario
+            ) 
+            VALUES(
+            $1,
+            $2,
+            $3,
+            $4,
+            $5,
+            $6,
+            $7,
+            $8,
+            $9
+            ) RETURNING id_usuario;`
         let datos:string[] = [this.id_persona,this.correo,this.telefono,this.clave,this.pregunta_1,this.pregunta_2,this.respuesta_1,this.respuesta_2,'1']
         return await this.postgresql.query(this.cliente,sql,datos);
     }
 
     async consultarIdUsuario():Promise<QueryResult>{
-        let sql:string= "SELECT * FROM tusuario,tpersona WHERE tpersona.id_persona=tusuario.id_persona AND tusuario.id_usuario=$1;"
+        let sql:string= `SELECT tpersona.id_persona,tpersona.nick_name,
+        tpersona.nombre,
+        tpersona.apellido,
+        tusuario.id_usuario,
+        tusuario.correo 
+        FROM 
+        tusuario,
+        tpersona 
+        WHERE 
+        tpersona.id_persona=tusuario.id_persona AND 
+        tusuario.id_usuario=$1;`
         let datos :string[] = [this.id_usuario]
         return await this.postgresql.query(this.cliente,sql,datos)
     }
 
     async consultarIdPersona():Promise<QueryResult>{
-        let sql:string= "SELECT * FROM tusuario,tpersona WHERE tpersona.id_persona=tusuario.id_persona AND tusuario.id_persona=$1;"
+        let sql:string= `SELECT 
+        tpersona.id_persona,
+        tpersona.nick_name,
+        tpersona.nombre,
+        tpersona.apellido,
+        tusuario.id_usuario,
+        tusuario.correo 
+        FROM 
+        tusuario,
+        tpersona 
+        WHERE 
+        tpersona.id_persona=tusuario.id_persona AND 
+        tusuario.id_persona=$1;`
         let datos :string[] = [this.id_persona]
         return await this.postgresql.query(this.cliente,sql,datos)
     }
 
-    async consultarPorCorreo():Promise<QueryResult>{
-        let sql:string= "SELECT * FROM tusuario,tpersona WHERE tpersona.id_persona=tusuario.id_persona AND tusuario.correo=$1;"
+    async consultarPorCorreoPeroSinClave():Promise<QueryResult>{
+        let sql:string= `SELECT 
+        tpersona.id_persona,
+        tpersona.nick_name,
+        tpersona.nombre,
+        tpersona.apellido,
+        tusuario.id_usuario,
+        tusuario.correo 
+        FROM 
+        tusuario,
+        tpersona 
+        WHERE 
+        tpersona.id_persona=tusuario.id_persona AND 
+        tusuario.correo=$1;
+        `
+        let datos :string[] = [this.correo]
+        return await this.postgresql.query(this.cliente,sql,datos)
+    }
+
+    async consultarPorCorreoPeroConClave():Promise<QueryResult>{
+        let sql:string= `SELECT 
+        tpersona.id_persona,
+        tpersona.nick_name,
+        tpersona.nombre,
+        tpersona.apellido,
+        tusuario.id_usuario,
+        tusuario.correo,
+        tusuario.clave
+        FROM 
+        tusuario,
+        tpersona 
+        WHERE 
+        tpersona.id_persona=tusuario.id_persona AND 
+        tusuario.correo=$1;
+        `
         let datos :string[] = [this.correo]
         return await this.postgresql.query(this.cliente,sql,datos)
     }
 
     async consultarTodo():Promise<QueryResult>{
-        let sql:string= "SELECT * FROM tusuario,tpersona WHERE tpersona.id_persona=tusuario.id_persona;"
+    
+        let sql:string= `SELECT 
+        tpersona.id_persona,
+        tpersona.nick_name,
+        tpersona.nombre,
+        tpersona.apellido,
+        tusuario.id_usuario,
+        tusuario.correo 
+        FROM 
+        tusuario,
+        tpersona 
+        WHERE 
+        tpersona.id_persona=tusuario.id_persona;`
         let datos :string[] = []
-        return await this.postgresql.query(this.cliente,sql,datos)
+        return await this.postgresql.query(this.cliente,
+            sql,datos)
     }
 
     async actualizarCorreo():Promise<QueryResult>{

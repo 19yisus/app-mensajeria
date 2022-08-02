@@ -10,7 +10,5 @@ router.get("/",(req:Request,res:Response) => {
 })
 
 router.post("/iniciar-sesion",crearConexionDBPG,ControladorLogin.iniciarSesion)
-// router.post("/verificar-sesion")
-// router.post("/cerrar-sesion")
 
 export default router

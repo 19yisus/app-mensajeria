@@ -12,6 +12,4 @@ router.get("/", (req, res) => {
     res.status(200).send(req.baseUrl);
 });
 router.post("/iniciar-sesion", crear_conexion_db_pg_1.default, c_login_1.default.iniciarSesion);
-// router.post("/verificar-sesion")
-// router.post("/cerrar-sesion")
 exports.default = router;

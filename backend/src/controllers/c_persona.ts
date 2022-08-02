@@ -52,7 +52,7 @@ let ControladorPersona = {
             mensaje_respuesta:"",
             datos_respuesta:[]
         }
-        let { postgresql, cliente } = req.body
+        let { postgresql, cliente ,token} = req.body
         let { id } = req.params
         let persona:ModeloPersona= new ModeloPersona(postgresql,cliente)
         persona.setIdPersona=id
@@ -71,7 +71,6 @@ let ControladorPersona = {
             respuesta.mensaje_respuesta="el recurso no a sido encontrado"
             res.status(404).json(respuesta)
         }
-
     },
 
     buscarPorNickName:async (req:Request,res:Response) => {
@@ -162,12 +161,12 @@ let ControladorPersona = {
             tipo_mensaje:"",
             mensaje_respuesta:""
         }
-        let { postgresql, cliente } = req.body
-        let { id_persona, nick_name, nombre, apellido } = req.body
+        let { postgresql, cliente, token } = req.body
+        let {nick_name, nombre, apellido } = req.body
         let { id } = req.params
-        if(id_persona===id){
+        if(token.id_persona == id ){
             let persona_obj={
-                id_persona,
+                id_persona:token.id_persona,
                 nick_name,
                 nombre, 
                 apellido

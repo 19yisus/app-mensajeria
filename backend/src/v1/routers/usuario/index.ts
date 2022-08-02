@@ -4,6 +4,7 @@ import ControladorUsuario from "../../../controllers/c_usuario"
 import CotroladorUsuario from "../../../controllers/c_usuario"
 // middleware
 import crearConexionDBPG from "../../../middlewares/crear_conexion_db_pg"
+import validarToken from "../../../middlewares/oauth"
 
 let router=Router()
 
@@ -18,18 +19,17 @@ router.get("/",(req:Request,res:Response) => {
 // TODO: validar respuestas de seguridad
 
 router.post("/registrar",crearConexionDBPG,CotroladorUsuario.registrar)
-router.get("/todo",crearConexionDBPG,CotroladorUsuario.consultarTodo)
-router.get("/:idUsuario",crearConexionDBPG,ControladorUsuario.consultarUsuarioPorId)
-router.get("/consultar/id-persona/:idPersona",crearConexionDBPG,ControladorUsuario.consultarUsuarioPorIdPersona)
-router.patch("/activar-cuenta/:idUsuario",crearConexionDBPG,ControladorUsuario.activarCuenta)
-router.patch("/desactivar-cuenta/:idUsuario",crearConexionDBPG,ControladorUsuario.desactivarCuenta)
-router.patch("/actualizar/telefono/:idUsuario",crearConexionDBPG,ControladorUsuario.actualizarTelefono)
-// router.patch("/actualizar/correo/:idUsuario",crearConexionDBPG,ControladorUsuario.actualizarCorreo)
-// router.patch("/actualizar/clave/:id")
-// router.patch("/actualizar/pregunta/:numero/:id")
-// router.patch("/actualizar/respuesta/:numero/:id")
-// router.get("/consultar-preguntas-seguridad/:id")
-// router.get("/validar-respuestas-seguirdad/:id")
+router.get("/todo",validarToken,crearConexionDBPG,CotroladorUsuario.consultarTodo)
+router.get("/:idUsuario",validarToken,crearConexionDBPG,ControladorUsuario.consultarUsuarioPorId)
+router.get("/consultar/id-persona/:idPersona",validarToken,crearConexionDBPG,ControladorUsuario.consultarUsuarioPorIdPersona)
+router.patch("/activar-cuenta/:idUsuario",validarToken,crearConexionDBPG,ControladorUsuario.activarCuenta)
+router.patch("/desactivar-cuenta/:idUsuario",validarToken,crearConexionDBPG,ControladorUsuario.desactivarCuenta)
+router.patch("/actualizar/telefono/:idUsuario",validarToken,crearConexionDBPG,ControladorUsuario.actualizarTelefono)
+// router.patch("/actualizar/clave/:id",validarToken)
+// router.patch("/actualizar/pregunta/:numero/:id",validarToken)
+// router.patch("/actualizar/respuesta/:numero/:id",validarToken)
+// router.get("/consultar-preguntas-seguridad/:id",validarToken)
+// router.get("/validar-respuestas-seguirdad/:id",validarToken)
 
 
 
