@@ -149,7 +149,7 @@ const ControladorUsuario = {
         let { idUsuario } = req.params;
         if (token.id_usuario == idUsuario) {
             let modeloUsuario = new m_usuario_1.default(postgresql, cliente);
-            modeloUsuario.setIdUsuario = idUsuario;
+            modeloUsuario.setIdUsuario = token.id_usuario;
             let resultUsuario = await modeloUsuario.activarUsuario();
             await postgresql.cerrarConexion(cliente);
             if (resultUsuario.rowCount > 0) {
@@ -172,11 +172,11 @@ const ControladorUsuario = {
         }
         else {
             respuesta = {
-                codigo_respuesta: 404,
+                codigo_respuesta: 400,
                 tipo_mensaje: "danger",
                 mensaje_respuesta: "error al editar no puede editar un recurso que no sea de usted",
             };
-            res.status(404).json(respuesta);
+            res.status(400).json(respuesta);
         }
     },
     desactivarCuenta: async (req, res) => {
@@ -189,7 +189,7 @@ const ControladorUsuario = {
         let { idUsuario } = req.params;
         if (token.id_usuario == idUsuario) {
             let modeloUsuario = new m_usuario_1.default(postgresql, cliente);
-            modeloUsuario.setIdUsuario = idUsuario;
+            modeloUsuario.setIdUsuario = token.id_usuario;
             let resultUsuario = await modeloUsuario.desactivarUsuario();
             await postgresql.cerrarConexion(cliente);
             if (resultUsuario.rowCount > 0) {
@@ -212,11 +212,11 @@ const ControladorUsuario = {
         }
         else {
             respuesta = {
-                codigo_respuesta: 404,
+                codigo_respuesta: 400,
                 tipo_mensaje: "danger",
                 mensaje_respuesta: "error al editar no puede editar un recurso que no sea de usted",
             };
-            res.status(404).json(respuesta);
+            res.status(400).json(respuesta);
         }
     },
     actualizarTelefono: async (req, res) => {
@@ -230,7 +230,7 @@ const ControladorUsuario = {
         let { telefono } = req.body;
         if (token.id_usuario == idUsuario) {
             let modeloUsuario = new m_usuario_1.default(postgresql, cliente);
-            modeloUsuario.setIdUsuario = idUsuario;
+            modeloUsuario.setIdUsuario = token.id_usuario;
             modeloUsuario.setTelefono = telefono;
             let resultUsuario = await modeloUsuario.actualizarTelefono();
             await postgresql.cerrarConexion(cliente);
@@ -238,7 +238,45 @@ const ControladorUsuario = {
                 respuesta = {
                     codigo_respuesta: 200,
                     tipo_mensaje: "success",
-                    mensaje_respuesta: "telefono actualizado",
+                    mensaje_respuesta: "telefono actualizado"
+                };
+                res.status(200).json(respuesta);
+            }
+            else {
+                respuesta = {
+                    codigo_respuesta: 400,
+                    tipo_mensaje: "danger",
+                    mensaje_respuesta: "error al actualizar el telefono",
+                };
+                res.status(400).json(respuesta);
+            }
+        }
+        else {
+            respuesta = {
+                codigo_respuesta: 400,
+                tipo_mensaje: "danger",
+                mensaje_respuesta: "error al editar no puede editar un recurso que no sea de usted",
+            };
+            res.status(400).json(respuesta);
+        }
+    },
+    consultarPreguntasSeguridad: async (req, res) => {
+        let respuesta = {
+            codigo_respuesta: 0,
+            tipo_mensaje: "",
+            mensaje_respuesta: "",
+        };
+        let { postgresql, cliente, token } = req.body;
+        let { idUsuario } = req.params;
+        if (token.id_usuario == idUsuario) {
+            let modeloUsuario = new m_usuario_1.default(postgresql, cliente);
+            modeloUsuario.setIdUsuario = token.id_usuario;
+            let resultUsuario = await modeloUsuario.consultarPreguntasDeSeguridad();
+            if (resultUsuario.rowCount > 0) {
+                respuesta = {
+                    codigo_respuesta: 200,
+                    tipo_mensaje: "success",
+                    mensaje_respuesta: "consulta completada",
                     datos_respuesta: resultUsuario.rows[0]
                 };
                 res.status(200).json(respuesta);
@@ -247,50 +285,76 @@ const ControladorUsuario = {
                 respuesta = {
                     codigo_respuesta: 404,
                     tipo_mensaje: "danger",
-                    mensaje_respuesta: "error al actualizar el telefono",
+                    mensaje_respuesta: "error no puede acceder a un recuros que no le pertenece",
                 };
                 res.status(404).json(respuesta);
             }
         }
         else {
             respuesta = {
-                codigo_respuesta: 404,
+                codigo_respuesta: 400,
                 tipo_mensaje: "danger",
-                mensaje_respuesta: "error al editar no puede editar un recurso que no sea de usted",
+                mensaje_respuesta: "error no puede acceder a un recuros que no le pertenece",
             };
-            res.status(404).json(respuesta);
+            res.status(400).json(respuesta);
         }
     },
-    // actualizarCorreo: async (req:Request,res:Response) => {
-    //     let respuesta:respuestaServidor={
-    //         codigo_respuesta:0,
-    //         tipo_mensaje:"",
-    //         mensaje_respuesta:"",
-    //     }
-    //     let { postgresql, cliente } = req.body
-    //     let {idUsuario} = req.params
-    //     let { correo } = req.body
-    //     let modeloUsuario:ModeloUsuario = new ModeloUsuario(postgresql,cliente)
-    //     modeloUsuario.setIdUsuario=idUsuario
-    //     modeloUsuario.setCorreo=correo
-    //     let resultUsuario:QueryResult=await modeloUsuario.actualizarCorreo()
-    //     await postgresql.cerrarConexion(cliente)
-    //     if(resultUsuario.rowCount>0){
-    //         respuesta={
-    //             codigo_respuesta:200,
-    //             tipo_mensaje:"success",
-    //             mensaje_respuesta:"correo actualizado"
-    //         }
-    //         res.status(200).json(respuesta)
-    //     }
-    //     else{
-    //         respuesta={
-    //             codigo_respuesta:404,
-    //             tipo_mensaje:"danger",
-    //             mensaje_respuesta:"error al actualizar el correo",
-    //         }
-    //         res.status(404).json(respuesta)
-    //     }
-    // },
+    actualizarPreguntaDeSeguridad: async (req, res) => {
+        let respuesta = {
+            codigo_respuesta: 0,
+            tipo_mensaje: "",
+            mensaje_respuesta: "",
+        };
+        let { postgresql, cliente, token } = req.body;
+        let { idUsuario, numero } = req.params;
+        let { pregunta_nueva, respuesta_nueva } = req.body;
+        if (token.id_usuario == idUsuario) {
+            let modeloUsuario = new m_usuario_1.default(postgresql, cliente);
+            modeloUsuario.setIdUsuario = token.id_usuario;
+            let estadoActualizacion = false;
+            if (numero === "1") {
+                modeloUsuario.setPregunta1 = pregunta_nueva;
+                modeloUsuario.setRespuesta1 = respuesta_nueva;
+                let resultPreguntaUsuario = await modeloUsuario.actualizarPregunta1();
+                let resultRespuestaUsuario = await modeloUsuario.actualizarRespuesta1();
+                if (resultPreguntaUsuario.rowCount > 0 || resultRespuestaUsuario.rowCount > 0) {
+                    estadoActualizacion = true;
+                }
+            }
+            else {
+                modeloUsuario.setPregunta2 = pregunta_nueva;
+                modeloUsuario.setRespuesta2 = respuesta_nueva;
+                let resultPreguntaUsuario = await modeloUsuario.actualizarPregunta2();
+                let resultRespuestaUsuario = await modeloUsuario.actualizarRespuesta2();
+                if (resultPreguntaUsuario.rowCount > 0 || resultRespuestaUsuario.rowCount > 0) {
+                    estadoActualizacion = true;
+                }
+            }
+            if (estadoActualizacion === true) {
+                respuesta = {
+                    codigo_respuesta: 200,
+                    tipo_mensaje: "success",
+                    mensaje_respuesta: `actualizacion completa de la pregunta o respuesta ${numero}`
+                };
+                res.status(200).json(respuesta);
+            }
+            else {
+                respuesta = {
+                    codigo_respuesta: 400,
+                    tipo_mensaje: "danger",
+                    mensaje_respuesta: `error al actualizar la pregunta o respuesta ${numero}`,
+                };
+                res.status(400).json(respuesta);
+            }
+        }
+        else {
+            respuesta = {
+                codigo_respuesta: 400,
+                tipo_mensaje: "danger",
+                mensaje_respuesta: "error no puede acceder a un recuros que no le pertenece",
+            };
+            res.status(400).json(respuesta);
+        }
+    }
 };
 exports.default = ControladorUsuario;

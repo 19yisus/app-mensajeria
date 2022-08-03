@@ -26,9 +26,7 @@ router.get("/consultar/id-persona/:idPersona", oauth_1.default, crear_conexion_d
 router.patch("/activar-cuenta/:idUsuario", oauth_1.default, crear_conexion_db_pg_1.default, c_usuario_1.default.activarCuenta);
 router.patch("/desactivar-cuenta/:idUsuario", oauth_1.default, crear_conexion_db_pg_1.default, c_usuario_1.default.desactivarCuenta);
 router.patch("/actualizar/telefono/:idUsuario", oauth_1.default, crear_conexion_db_pg_1.default, c_usuario_1.default.actualizarTelefono);
-// router.patch("/actualizar/clave/:id",validarToken)
-// router.patch("/actualizar/pregunta/:numero/:id",validarToken)
-// router.patch("/actualizar/respuesta/:numero/:id",validarToken)
-// router.get("/consultar-preguntas-seguridad/:id",validarToken)
-// router.get("/validar-respuestas-seguirdad/:id",validarToken)
+// router.patch("/actualizar/clave/:id",validarToken,crearConexionDBPG)
+router.patch("/actualizar/pregunta-respuesta/:numero/:idUsuario", oauth_1.default, crear_conexion_db_pg_1.default, c_usuario_1.default.actualizarPreguntaDeSeguridad);
+router.get("/consultar-preguntas-seguridad/:idUsuario", oauth_1.default, crear_conexion_db_pg_1.default, c_usuario_1.default.consultarPreguntasSeguridad);
 exports.default = router;

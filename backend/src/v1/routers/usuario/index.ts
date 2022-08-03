@@ -25,11 +25,9 @@ router.get("/consultar/id-persona/:idPersona",validarToken,crearConexionDBPG,Con
 router.patch("/activar-cuenta/:idUsuario",validarToken,crearConexionDBPG,ControladorUsuario.activarCuenta)
 router.patch("/desactivar-cuenta/:idUsuario",validarToken,crearConexionDBPG,ControladorUsuario.desactivarCuenta)
 router.patch("/actualizar/telefono/:idUsuario",validarToken,crearConexionDBPG,ControladorUsuario.actualizarTelefono)
-// router.patch("/actualizar/clave/:id",validarToken)
-// router.patch("/actualizar/pregunta/:numero/:id",validarToken)
-// router.patch("/actualizar/respuesta/:numero/:id",validarToken)
-// router.get("/consultar-preguntas-seguridad/:id",validarToken)
-// router.get("/validar-respuestas-seguirdad/:id",validarToken)
+// router.patch("/actualizar/clave/:id",validarToken,crearConexionDBPG)
+router.patch("/actualizar/pregunta-respuesta/:numero/:idUsuario",validarToken,crearConexionDBPG,ControladorUsuario.actualizarPreguntaDeSeguridad)
+router.get("/consultar-preguntas-seguridad/:idUsuario",validarToken,crearConexionDBPG,ControladorUsuario.consultarPreguntasSeguridad)
 
 
 

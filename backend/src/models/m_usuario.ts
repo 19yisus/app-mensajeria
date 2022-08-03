@@ -67,12 +67,20 @@ class ModeloUsuario  implements usuario {
         return this.correo
     }
 
-    set setRespuesta1(respuesta_1_:string){
-        this.respuesta_1=respuesta_1_
+    set setPregunta1(pregunta_:string){
+        this.pregunta_1=pregunta_
     }
 
-    set setRespuesta2(respuesta_2_:string){
-        this.respuesta_2=respuesta_2_
+    set setPregunta2(pregunta_:string){
+        this.pregunta_2=pregunta_
+    }
+
+    set setRespuesta1(respuesta_:string){
+        this.respuesta_1=respuesta_
+    }
+
+    set setRespuesta2(respuesta_:string){
+        this.respuesta_2=respuesta_
     }
 
     set setClave(clave_:string){
@@ -180,7 +188,6 @@ class ModeloUsuario  implements usuario {
     }
 
     async consultarTodo():Promise<QueryResult>{
-    
         let sql:string= `SELECT 
         tpersona.id_persona,
         tpersona.nick_name,
@@ -194,8 +201,26 @@ class ModeloUsuario  implements usuario {
         WHERE 
         tpersona.id_persona=tusuario.id_persona;`
         let datos :string[] = []
-        return await this.postgresql.query(this.cliente,
-            sql,datos)
+        return await this.postgresql.query(this.cliente,sql,datos)
+    }
+
+    async consultarPreguntasDeSeguridad():Promise<QueryResult>{
+        let sql:string= `SELECT 
+        tpersona.id_persona,
+        tpersona.nick_name,
+        tpersona.nombre,
+        tpersona.apellido,
+        tusuario.id_usuario,
+        tusuario.pregunta_1,
+        tusuario.pregunta_2
+        FROM 
+        tusuario,
+        tpersona 
+        WHERE 
+        tpersona.id_persona=tusuario.id_persona AND 
+        tusuario.id_usuario=$1`
+        let datos :string[] = [this.id_usuario]
+        return await this.postgresql.query(this.cliente,sql,datos)
     }
 
     async actualizarCorreo():Promise<QueryResult>{

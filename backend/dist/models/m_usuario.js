@@ -55,11 +55,17 @@ class ModeloUsuario {
     get getCorreo() {
         return this.correo;
     }
-    set setRespuesta1(respuesta_1_) {
-        this.respuesta_1 = respuesta_1_;
+    set setPregunta1(pregunta_) {
+        this.pregunta_1 = pregunta_;
     }
-    set setRespuesta2(respuesta_2_) {
-        this.respuesta_2 = respuesta_2_;
+    set setPregunta2(pregunta_) {
+        this.pregunta_2 = pregunta_;
+    }
+    set setRespuesta1(respuesta_) {
+        this.respuesta_1 = respuesta_;
+    }
+    set setRespuesta2(respuesta_) {
+        this.respuesta_2 = respuesta_;
     }
     set setClave(clave_) {
         this.clave = clave_;
@@ -173,6 +179,24 @@ class ModeloUsuario {
         WHERE 
         tpersona.id_persona=tusuario.id_persona;`;
         let datos = [];
+        return await this.postgresql.query(this.cliente, sql, datos);
+    }
+    async consultarPreguntasDeSeguridad() {
+        let sql = `SELECT 
+        tpersona.id_persona,
+        tpersona.nick_name,
+        tpersona.nombre,
+        tpersona.apellido,
+        tusuario.id_usuario,
+        tusuario.pregunta_1,
+        tusuario.pregunta_2
+        FROM 
+        tusuario,
+        tpersona 
+        WHERE 
+        tpersona.id_persona=tusuario.id_persona AND 
+        tusuario.id_usuario=$1`;
+        let datos = [this.id_usuario];
         return await this.postgresql.query(this.cliente, sql, datos);
     }
     async actualizarCorreo() {
