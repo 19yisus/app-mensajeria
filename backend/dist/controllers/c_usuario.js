@@ -80,6 +80,35 @@ const ControladorUsuario = {
             res.status(404).json(respuesta);
         }
     },
+    consultarme: async (req, res) => {
+        let respuesta = {
+            codigo_respuesta: 0,
+            tipo_mensaje: "",
+            mensaje_respuesta: "",
+        };
+        let { postgresql, cliente, token } = req.body;
+        let modeloUsuario = new m_usuario_1.default(postgresql, cliente);
+        modeloUsuario.setIdUsuario = token.id_usuario;
+        let resultUsuario = await modeloUsuario.consultarIdUsuario();
+        await postgresql.cerrarConexion(cliente);
+        if (resultUsuario.rowCount > 0) {
+            respuesta = {
+                codigo_respuesta: 200,
+                tipo_mensaje: "success",
+                mensaje_respuesta: "consulta completada",
+                datos_respuesta: resultUsuario.rows[0]
+            };
+            res.status(200).json(respuesta);
+        }
+        else {
+            respuesta = {
+                codigo_respuesta: 404,
+                tipo_mensaje: "danger",
+                mensaje_respuesta: "error al consultar no se a encontrado el recurso",
+            };
+            res.status(404).json(respuesta);
+        }
+    },
     consultarTodo: async (req, res) => {
         let respuesta = {
             codigo_respuesta: 0,
@@ -343,6 +372,60 @@ const ControladorUsuario = {
                     codigo_respuesta: 400,
                     tipo_mensaje: "danger",
                     mensaje_respuesta: `error al actualizar la pregunta o respuesta ${numero}`,
+                };
+                res.status(400).json(respuesta);
+            }
+        }
+        else {
+            respuesta = {
+                codigo_respuesta: 400,
+                tipo_mensaje: "danger",
+                mensaje_respuesta: "error no puede acceder a un recuros que no le pertenece",
+            };
+            res.status(400).json(respuesta);
+        }
+    },
+    actualizarClave: async (req, res) => {
+        let respuesta = {
+            codigo_respuesta: 0,
+            tipo_mensaje: "",
+            mensaje_respuesta: "",
+        };
+        let { postgresql, cliente, token } = req.body;
+        let { idUsuario } = req.params;
+        let { respuesta_1, respuesta_2, clave_nueva } = req.body;
+        if (token.id_usuario == idUsuario) {
+            let modeloUsuario = new m_usuario_1.default(postgresql, cliente);
+            modeloUsuario.setIdUsuario = token.id_usuario;
+            modeloUsuario.setRespuesta1 = respuesta_1;
+            modeloUsuario.setRespuesta2 = respuesta_2;
+            let resultUsuarioPregunta1 = await modeloUsuario.compararRespuesta1();
+            let resultUsuarioPregunta2 = await modeloUsuario.compararRespuesta2();
+            if (resultUsuarioPregunta1.rowCount === 1 && resultUsuarioPregunta2.rowCount === 1) {
+                modeloUsuario.setClave = await cifrado_1.default.cifrarClave(clave_nueva);
+                let resultUsuario = await modeloUsuario.cambiarClave();
+                if (resultUsuario.rowCount > 0) {
+                    respuesta = {
+                        codigo_respuesta: 200,
+                        tipo_mensaje: "success",
+                        mensaje_respuesta: "clave actualizada",
+                    };
+                    res.status(200).json(respuesta);
+                }
+                else {
+                    respuesta = {
+                        codigo_respuesta: 400,
+                        tipo_mensaje: "danger",
+                        mensaje_respuesta: "error al actualizar la clave",
+                    };
+                    res.status(400).json(respuesta);
+                }
+            }
+            else {
+                respuesta = {
+                    codigo_respuesta: 400,
+                    tipo_mensaje: "danger",
+                    mensaje_respuesta: "error al actualizar por que no pudo responder correctamente las preguntas",
                 };
                 res.status(400).json(respuesta);
             }

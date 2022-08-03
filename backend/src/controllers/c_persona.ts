@@ -136,15 +136,16 @@ let ControladorPersona = {
             mensaje_respuesta:"",
             datos_respuesta:[]
         }
-        let { postgresql, cliente } = req.body
+        let { postgresql, cliente, token } = req.body
         let persona:ModeloPersona= new ModeloPersona(postgresql,cliente)
-        let resultPersona=await persona.consultarTodo()
+        persona.setIdPersona=token.id_persona
+        let resultPersona=await persona.consultarPorId()
         postgresql.cerrarConexion(cliente)
         if(resultPersona.rowCount>0){
             respuesta.codigo_respuesta=200
             respuesta.tipo_mensaje="success"
             respuesta.mensaje_respuesta="consulta completada"
-            respuesta.datos_respuesta=resultPersona.rows
+            respuesta.datos_respuesta=resultPersona.rows[0]
             res.status(200).json(respuesta)
         }
         else{

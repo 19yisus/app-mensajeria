@@ -14,19 +14,15 @@ let router = (0, express_1.Router)();
 router.get("/", (req, res) => {
     res.status(200).send(req.baseUrl);
 });
-// TODO: actualizar clave
-// TODO: actualizar preguntas
-// TODO: actualizar respuesta de preguntas
-// TODO: consultar preguntas
-// TODO: validar respuestas de seguridad
 router.post("/registrar", crear_conexion_db_pg_1.default, c_usuario_2.default.registrar);
+router.get("/yo", oauth_1.default, crear_conexion_db_pg_1.default, c_usuario_1.default.consultarme);
 router.get("/todo", oauth_1.default, crear_conexion_db_pg_1.default, c_usuario_2.default.consultarTodo);
 router.get("/:idUsuario", oauth_1.default, crear_conexion_db_pg_1.default, c_usuario_1.default.consultarUsuarioPorId);
 router.get("/consultar/id-persona/:idPersona", oauth_1.default, crear_conexion_db_pg_1.default, c_usuario_1.default.consultarUsuarioPorIdPersona);
 router.patch("/activar-cuenta/:idUsuario", oauth_1.default, crear_conexion_db_pg_1.default, c_usuario_1.default.activarCuenta);
 router.patch("/desactivar-cuenta/:idUsuario", oauth_1.default, crear_conexion_db_pg_1.default, c_usuario_1.default.desactivarCuenta);
 router.patch("/actualizar/telefono/:idUsuario", oauth_1.default, crear_conexion_db_pg_1.default, c_usuario_1.default.actualizarTelefono);
-// router.patch("/actualizar/clave/:id",validarToken,crearConexionDBPG)
+router.patch("/actualizar/clave/:idUsuario", oauth_1.default, crear_conexion_db_pg_1.default, c_usuario_1.default.actualizarClave);
 router.patch("/actualizar/pregunta-respuesta/:numero/:idUsuario", oauth_1.default, crear_conexion_db_pg_1.default, c_usuario_1.default.actualizarPreguntaDeSeguridad);
 router.get("/consultar-preguntas-seguridad/:idUsuario", oauth_1.default, crear_conexion_db_pg_1.default, c_usuario_1.default.consultarPreguntasSeguridad);
 exports.default = router;
