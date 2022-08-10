@@ -2,7 +2,6 @@ import { Request, Response } from "express"
 import respuestaServidor from "../interfaces/types/respuesta_servidor"
 // modelos
 import ModeloUsuario from "../models/m_usuario"
-import ModeloPersona from "../models/m_persona"
 // utilidades
 import Cifrado from "../utils/cifrado"
 import { QueryResult } from "pg"
@@ -324,6 +323,7 @@ const ControladorUsuario = {
             let modeloUsuario:ModeloUsuario=new ModeloUsuario(postgresql,cliente)
             modeloUsuario.setIdUsuario=token.id_usuario
             let resultUsuario:QueryResult=await modeloUsuario.consultarPreguntasDeSeguridad()
+            await postgresql.cerrarConexion(cliente)
             if(resultUsuario.rowCount>0){
                 respuesta={
                     codigo_respuesta:200,
@@ -383,6 +383,7 @@ const ControladorUsuario = {
                     estadoActualizacion=true
                 }
             }
+            await postgresql.cerrarConexion(cliente)
             if(estadoActualizacion===true){
                 respuesta={
                     codigo_respuesta:200,
@@ -429,6 +430,7 @@ const ControladorUsuario = {
             if(resultUsuarioPregunta1.rowCount===1 && resultUsuarioPregunta2.rowCount===1){
                 modeloUsuario.setClave=await Cifrado.cifrarClave(clave_nueva)
                 let resultUsuario:QueryResult=await modeloUsuario.cambiarClave()
+                await postgresql.cerrarConexion(cliente)
                 if(resultUsuario.rowCount>0){
                     respuesta={
                         codigo_respuesta:200,

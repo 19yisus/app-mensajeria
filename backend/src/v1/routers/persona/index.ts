@@ -13,7 +13,7 @@ router.get("/",(req:Request,res:Response) => {
 
 router.post("/registrar",crearConexionDBPG,ControladorPersona.registrar)
 
-router.get("/yo",validarToken,crearConexionDBPG,ControladorPersona.consultarTodo)
+router.get("/yo",validarToken,crearConexionDBPG,ControladorPersona.consultarPorId)
 
 router.get("/todo",validarToken,crearConexionDBPG,ControladorPersona.consultarTodo)
 

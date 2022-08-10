@@ -71,6 +71,32 @@ let ControladorPersona = {
             res.status(404).json(respuesta);
         }
     },
+    consultarme: async (req, res) => {
+        let respuesta = {
+            codigo_respuesta: 0,
+            tipo_mensaje: "",
+            mensaje_respuesta: "",
+            datos_respuesta: []
+        };
+        let { postgresql, cliente, token } = req.body;
+        let persona = new m_persona_1.default(postgresql, cliente);
+        persona.setIdPersona = token.id_persona;
+        let resultPersona = await persona.consultarPorId();
+        postgresql.cerrarConexion(cliente);
+        if (resultPersona.rowCount > 0) {
+            respuesta.codigo_respuesta = 200;
+            respuesta.tipo_mensaje = "success";
+            respuesta.mensaje_respuesta = "consulta completada";
+            respuesta.datos_respuesta = resultPersona.rows;
+            res.status(200).json(respuesta);
+        }
+        else {
+            respuesta.codigo_respuesta = 404;
+            respuesta.tipo_mensaje = "danger";
+            respuesta.mensaje_respuesta = "el recurso no a sido encontrado";
+            res.status(404).json(respuesta);
+        }
+    },
     buscarPorNickName: async (req, res) => {
         let respuesta = {
             codigo_respuesta: 0,
@@ -135,13 +161,13 @@ let ControladorPersona = {
         let { postgresql, cliente, token } = req.body;
         let persona = new m_persona_1.default(postgresql, cliente);
         persona.setIdPersona = token.id_persona;
-        let resultPersona = await persona.consultarPorId();
+        let resultPersona = await persona.consultarTodo();
         postgresql.cerrarConexion(cliente);
         if (resultPersona.rowCount > 0) {
             respuesta.codigo_respuesta = 200;
             respuesta.tipo_mensaje = "success";
             respuesta.mensaje_respuesta = "consulta completada";
-            respuesta.datos_respuesta = resultPersona.rows[0];
+            respuesta.datos_respuesta = resultPersona.rows;
             res.status(200).json(respuesta);
         }
         else {

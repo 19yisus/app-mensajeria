@@ -301,6 +301,7 @@ const ControladorUsuario = {
             let modeloUsuario = new m_usuario_1.default(postgresql, cliente);
             modeloUsuario.setIdUsuario = token.id_usuario;
             let resultUsuario = await modeloUsuario.consultarPreguntasDeSeguridad();
+            await postgresql.cerrarConexion(cliente);
             if (resultUsuario.rowCount > 0) {
                 respuesta = {
                     codigo_respuesta: 200,
@@ -359,6 +360,7 @@ const ControladorUsuario = {
                     estadoActualizacion = true;
                 }
             }
+            await postgresql.cerrarConexion(cliente);
             if (estadoActualizacion === true) {
                 respuesta = {
                     codigo_respuesta: 200,
@@ -404,6 +406,7 @@ const ControladorUsuario = {
             if (resultUsuarioPregunta1.rowCount === 1 && resultUsuarioPregunta2.rowCount === 1) {
                 modeloUsuario.setClave = await cifrado_1.default.cifrarClave(clave_nueva);
                 let resultUsuario = await modeloUsuario.cambiarClave();
+                await postgresql.cerrarConexion(cliente);
                 if (resultUsuario.rowCount > 0) {
                     respuesta = {
                         codigo_respuesta: 200,

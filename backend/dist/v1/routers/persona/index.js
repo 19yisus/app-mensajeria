@@ -14,7 +14,7 @@ router.get("/", (req, res) => {
     res.send(req.baseUrl).status(200);
 });
 router.post("/registrar", crear_conexion_db_pg_1.default, c_persona_1.default.registrar);
-router.get("/yo", oauth_1.default, crear_conexion_db_pg_1.default, c_persona_1.default.consultarTodo);
+router.get("/yo", oauth_1.default, crear_conexion_db_pg_1.default, c_persona_1.default.consultarPorId);
 router.get("/todo", oauth_1.default, crear_conexion_db_pg_1.default, c_persona_1.default.consultarTodo);
 router.get("/:id", oauth_1.default, crear_conexion_db_pg_1.default, c_persona_1.default.consultarPorId);
 router.put("/actualizar/:id", oauth_1.default, crear_conexion_db_pg_1.default, c_persona_1.default.actualizar);
