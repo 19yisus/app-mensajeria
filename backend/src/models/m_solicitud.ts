@@ -84,12 +84,26 @@ class ModeloSolicitud  implements solicitud {
         tusuario,
         tsolicitud 
         WHERE 
-        tsolicitud.id_solicita=$1 AND
-        tsolicitud.estado_solicitud=$2 AND
-        tusuario.id_usuario=tsolicitud.id_usuario_solicito AND
-        tpersona.id_persona=tusuario.id_persona;
-        `
-        let datos:string[]=[this.id_solicita,"e"]
+        tsolicitud.id_solicita=$1 AND 
+        tsolicitud.estado_solicitud=$2 AND 
+        tusuario.id_usuario=tsolicitud.id_usuario_solicito AND 
+        tpersona.id_persona=tusuario.id_persona; `
+        let id_solicita_numero:number=this.id_solicita as unknown as number
+        let datos:[number, string]=[id_solicita_numero,"e"]
+        return await this.postgresql.query(this.cliente,sql,datos)
+    }
+
+    async consultarMisSolicitudes():Promise<QueryResult>{
+        let sql:string = `SELECT * FROM 
+        tpersona,
+        tusuario,
+        tsolicitud 
+        WHERE 
+        tsolicitud.id_usuario_solicito=$1 AND
+        tusuario.id_usuario=tsolicitud.id_usuario_solicito AND 
+        tpersona.id_persona=tusuario.id_persona; `
+        let id_usuario_solicito:number=this.id_usuario_solicito as unknown as number
+        let datos:[number]=[id_usuario_solicito]
         return await this.postgresql.query(this.cliente,sql,datos)
     }
 
@@ -130,8 +144,11 @@ class ModeloSolicitud  implements solicitud {
     }
 
     async borrarSolicitudEnviada():Promise<QueryResult>{
+        // DELETE FROM tsolicitud WHERE id_solicitud=4 AND id_usuario_solicito=1;
         let sql:string = `DELETE FROM tsolicitud WHERE id_solicitud=$1 AND id_usuario_solicito=$2;`
-        let datos:string[]=[this.id_solicitud,this.id_usuario_solicito]
+        let id_solicitud_:number = this.id_solicitud as unknown as number
+        let id_usuario_solicito_:number = this.id_usuario_solicito as unknown as number
+        let datos:number[]=[id_solicitud_,id_usuario_solicito_]
         return await this.postgresql.query(this.cliente,sql,datos)
     }
 

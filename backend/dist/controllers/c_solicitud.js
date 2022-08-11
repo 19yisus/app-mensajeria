@@ -44,11 +44,10 @@ const ControladorSolicitud = {
         };
         let { postgresql, cliente, token } = req.body;
         let modeloSolicitud = new m_solicitud_1.default(postgresql, cliente);
-        console.log(token.id_usuario);
         modeloSolicitud.setIdSolicita = token.id_usuario;
         let resultSolicitud = await modeloSolicitud.consultarMisSolicitudesEspera();
         await postgresql.cerrarConexion(cliente);
-        if (resultSolicitud.rowCount === 1) {
+        if (resultSolicitud.rowCount > 0) {
             respuesta = {
                 codigo_respuesta: 200,
                 tipo_mensaje: "success",
@@ -73,9 +72,9 @@ const ControladorSolicitud = {
             mensaje_respuesta: "",
         };
         let { postgresql, cliente, token } = req.body;
-        let { id } = req.body;
+        let { id } = req.params;
         let modeloSolicitud = new m_solicitud_1.default(postgresql, cliente);
-        modeloSolicitud.setIdUsuario = token.id_usuario;
+        modeloSolicitud.setIdSolicita = token.id_usuario;
         modeloSolicitud.setIdSolicitud = id;
         let resultSolicitud = await modeloSolicitud.aceptarSolicitud();
         await postgresql.cerrarConexion(cliente);
@@ -103,9 +102,9 @@ const ControladorSolicitud = {
             mensaje_respuesta: "",
         };
         let { postgresql, cliente, token } = req.body;
-        let { id } = req.body;
+        let { id } = req.params;
         let modeloSolicitud = new m_solicitud_1.default(postgresql, cliente);
-        modeloSolicitud.setIdUsuario = token.id_usuario;
+        modeloSolicitud.setIdSolicita = token.id_usuario;
         modeloSolicitud.setIdSolicitud = id;
         let resultSolicitud = await modeloSolicitud.rechazarSolicitud();
         await postgresql.cerrarConexion(cliente);
@@ -135,9 +134,9 @@ const ControladorSolicitud = {
         let { postgresql, cliente, token } = req.body;
         let modeloSolicitud = new m_solicitud_1.default(postgresql, cliente);
         modeloSolicitud.setIdUsuario = token.id_usuario;
-        let resultSolicitud = await modeloSolicitud.consultarMisSolicitudesEspera();
+        let resultSolicitud = await modeloSolicitud.consultarMisSolicitudes();
         await postgresql.cerrarConexion(cliente);
-        if (resultSolicitud.rowCount === 1) {
+        if (resultSolicitud.rowCount > 0) {
             respuesta = {
                 codigo_respuesta: 200,
                 tipo_mensaje: "success",
@@ -162,7 +161,7 @@ const ControladorSolicitud = {
             mensaje_respuesta: "",
         };
         let { postgresql, cliente, token } = req.body;
-        let { id } = req.body;
+        let { id } = req.params;
         let modeloSolicitud = new m_solicitud_1.default(postgresql, cliente);
         modeloSolicitud.setIdUsuario = token.id_usuario;
         modeloSolicitud.setIdSolicitud = id;

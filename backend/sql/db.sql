@@ -49,8 +49,8 @@ CREATE TABLE IF NOT EXISTS tusuario(
 CREATE TABLE IF NOT EXISTS tsolicitud(
     id_solicitud SERIAL,
     -- id_tipo_solicitud INTEGER NOT NULL,
-    id_usuario_solicito  INTEGER NOT NULL,
-    id_solicita INTEGER NOT NULL,
+    id_usuario_solicito  INTEGER NOT NULL, -- id del usuario que envio la solicitud
+    id_solicita INTEGER NOT NULL, -- id de usuario a quien se le envio la solicitud
     estado_solicitud character varying(1) NOT NULL,
     fecha_solicitud  DATE NOT NULL,
     constraint PK_id_solicitud primary key(id_solicitud),

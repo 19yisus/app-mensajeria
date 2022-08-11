@@ -14,9 +14,9 @@ router.get("/", (req, res) => {
     res.send(req.baseUrl).status(200);
 });
 router.post("/enviar-solicitud", oauth_1.default, crear_conexion_db_pg_1.default, c_solicitud_1.default.enviarSolicitud);
-router.get("/consultar/mi-solicitudes", oauth_1.default, crear_conexion_db_pg_1.default, c_solicitud_1.default.consultarMisSolicitudesEspera);
-router.get("/consultar/solicitudes-enviadas", oauth_1.default, crear_conexion_db_pg_1.default, c_solicitud_1.default.consultarMisSolicitudesEnviadas);
-router.patch("/aceptar-solicitud/:id", oauth_1.default, crear_conexion_db_pg_1.default, c_solicitud_1.default.aceptarSolicitud);
-router.patch("/rechazar-solicitud/:id", oauth_1.default, crear_conexion_db_pg_1.default, c_solicitud_1.default.rechazarSolicitud);
-router.delete("/borrar-solicitud/:id", oauth_1.default, crear_conexion_db_pg_1.default, c_solicitud_1.default.borrarSolicitudEnviada);
+router.get("/consultar/solicitudes", oauth_1.default, crear_conexion_db_pg_1.default, c_solicitud_1.default.consultarMisSolicitudesEspera);
+router.get("/consultar/mis-solicitudes-enviadas", oauth_1.default, crear_conexion_db_pg_1.default, c_solicitud_1.default.consultarMisSolicitudesEnviadas);
+router.patch("/aceptar/:id", oauth_1.default, crear_conexion_db_pg_1.default, c_solicitud_1.default.aceptarSolicitud);
+router.patch("/rechazar/:id", oauth_1.default, crear_conexion_db_pg_1.default, c_solicitud_1.default.rechazarSolicitud);
+router.delete("/borrar/:id", oauth_1.default, crear_conexion_db_pg_1.default, c_solicitud_1.default.borrarSolicitudEnviada);
 exports.default = router;

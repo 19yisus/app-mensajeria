@@ -73,12 +73,25 @@ class ModeloSolicitud {
         tusuario,
         tsolicitud 
         WHERE 
-        tsolicitud.id_solicita=$1 AND
-        tsolicitud.estado_solicitud=$2 AND
-        tusuario.id_usuario=tsolicitud.id_usuario_solicito AND
-        tpersona.id_persona=tusuario.id_persona;
-        `;
-        let datos = [this.id_solicita, "e"];
+        tsolicitud.id_solicita=$1 AND 
+        tsolicitud.estado_solicitud=$2 AND 
+        tusuario.id_usuario=tsolicitud.id_usuario_solicito AND 
+        tpersona.id_persona=tusuario.id_persona; `;
+        let id_solicita_numero = this.id_solicita;
+        let datos = [id_solicita_numero, "e"];
+        return await this.postgresql.query(this.cliente, sql, datos);
+    }
+    async consultarMisSolicitudes() {
+        let sql = `SELECT * FROM 
+        tpersona,
+        tusuario,
+        tsolicitud 
+        WHERE 
+        tsolicitud.id_usuario_solicito=$1 AND
+        tusuario.id_usuario=tsolicitud.id_usuario_solicito AND 
+        tpersona.id_persona=tusuario.id_persona; `;
+        let id_usuario_solicito = this.id_usuario_solicito;
+        let datos = [id_usuario_solicito];
         return await this.postgresql.query(this.cliente, sql, datos);
     }
     async aceptarSolicitud() {
@@ -115,8 +128,11 @@ class ModeloSolicitud {
         return await this.postgresql.query(this.cliente, sql, datos);
     }
     async borrarSolicitudEnviada() {
+        // DELETE FROM tsolicitud WHERE id_solicitud=4 AND id_usuario_solicito=1;
         let sql = `DELETE FROM tsolicitud WHERE id_solicitud=$1 AND id_usuario_solicito=$2;`;
-        let datos = [this.id_solicitud, this.id_usuario_solicito];
+        let id_solicitud_ = this.id_solicitud;
+        let id_usuario_solicito_ = this.id_usuario_solicito;
+        let datos = [id_solicitud_, id_usuario_solicito_];
         return await this.postgresql.query(this.cliente, sql, datos);
     }
 }

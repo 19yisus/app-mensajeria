@@ -12,11 +12,11 @@ router.get("/",(req:Request,res:Response) => {
 })
 
 router.post("/enviar-solicitud",validarToken,crearConexionDBPG,ControladorSolicitud.enviarSolicitud)
-router.get("/consultar/mi-solicitudes",validarToken,crearConexionDBPG,ControladorSolicitud.consultarMisSolicitudesEspera)
-router.get("/consultar/solicitudes-enviadas",validarToken,crearConexionDBPG,ControladorSolicitud.consultarMisSolicitudesEnviadas)
-router.patch("/aceptar-solicitud/:id",validarToken,crearConexionDBPG,ControladorSolicitud.aceptarSolicitud)
-router.patch("/rechazar-solicitud/:id",validarToken,crearConexionDBPG,ControladorSolicitud.rechazarSolicitud)
-router.delete("/borrar-solicitud/:id",validarToken,crearConexionDBPG,ControladorSolicitud.borrarSolicitudEnviada)
+router.get("/consultar/solicitudes",validarToken,crearConexionDBPG,ControladorSolicitud.consultarMisSolicitudesEspera)
+router.get("/consultar/mis-solicitudes-enviadas",validarToken,crearConexionDBPG,ControladorSolicitud.consultarMisSolicitudesEnviadas)
+router.patch("/aceptar/:id",validarToken,crearConexionDBPG,ControladorSolicitud.aceptarSolicitud)
+router.patch("/rechazar/:id",validarToken,crearConexionDBPG,ControladorSolicitud.rechazarSolicitud)
+router.delete("/borrar/:id",validarToken,crearConexionDBPG,ControladorSolicitud.borrarSolicitudEnviada)
 
 
 export default router
