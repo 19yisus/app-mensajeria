@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // modelos
 const m_solicitud_1 = __importDefault(require("../models/m_solicitud"));
 const m_cuarto_1 = __importDefault(require("../models/m_cuarto"));
+const m_contacto_1 = __importDefault(require("../models/m_contacto"));
 const ControladorSolicitud = {
     enviarSolicitud: async (req, res) => {
         let respuesta = {
@@ -89,8 +90,44 @@ const ControladorSolicitud = {
             let resultCUarto = await cuarto.crearCuarto();
             console.log(`id del cuarto ${resultCUarto.rows[0].id_cuarto}`);
             console.log(`datos de la solicitud para crear los contactos `, resultSolicitud2.rows[0]);
+            let datosCuarto = resultCUarto.rows[0];
+            let datosSolicitud = resultSolicitud2.rows[0];
+            let contactoUsuario1 = new m_contacto_1.default(postgresql, cliente);
+            let contactoUsuario2 = new m_contacto_1.default(postgresql, cliente);
+            contactoUsuario1.setDatos = {
+                id_contacto: "",
+                id_usuario: datosSolicitud.id_usuario_solicito,
+                id_cuarto: datosCuarto.id_cuarto,
+                contacto_id_usuario: datosSolicitud.id_solicita,
+                estado_contacto: "",
+            };
+            contactoUsuario2.setDatos = {
+                id_contacto: "",
+                id_usuario: datosSolicitud.id_solicita,
+                id_cuarto: datosCuarto.id_cuarto,
+                contacto_id_usuario: datosSolicitud.id_usuario_solicito,
+                estado_contacto: "",
+            };
+            let resultContactoUsuario1 = await contactoUsuario1.crearContacto();
+            let resultContactoUsuario2 = await contactoUsuario2.crearContacto();
             await postgresql.cerrarConexion(cliente);
-            res.status(200).json(respuesta);
+            if (resultContactoUsuario1.rowCount > 0 && resultContactoUsuario2.rowCount > 0) {
+                respuesta = {
+                    codigo_respuesta: 200,
+                    tipo_mensaje: "success",
+                    mensaje_respuesta: "solicitud aceptada",
+                };
+                res.status(200).json(respuesta);
+            }
+            else {
+                respuesta = {
+                    codigo_respuesta: 400,
+                    tipo_mensaje: "danger",
+                    mensaje_respuesta: "error por algun motivo a fallado el proceso de aceptar la solicitud por favor comunique a soporte de este problema",
+                };
+                res.status(400).json(respuesta);
+            }
+            // res.status(200).json(respuesta)
         }
         else {
             respuesta = {
@@ -114,7 +151,7 @@ const ControladorSolicitud = {
         modeloSolicitud.setIdSolicitud = id;
         let resultSolicitud = await modeloSolicitud.rechazarSolicitud();
         await postgresql.cerrarConexion(cliente);
-        if (resultSolicitud.rowCount === 1) {
+        if (resultSolicitud.rowCount === 2) {
             respuesta = {
                 codigo_respuesta: 200,
                 tipo_mensaje: "success",
