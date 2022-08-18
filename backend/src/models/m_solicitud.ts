@@ -93,6 +93,15 @@ class ModeloSolicitud  implements solicitud {
         return await this.postgresql.query(this.cliente,sql,datos)
     }
 
+    async consultarSolicitud():Promise<QueryResult>{
+        let sql:string = `SELECT * FROM 
+        tsolicitud 
+        WHERE 
+        id_solicitud=$1`
+        let datos:[string]=[this.id_solicitud]
+        return await this.postgresql.query(this.cliente,sql,datos)
+    }
+
     async consultarMisSolicitudes():Promise<QueryResult>{
         let sql:string = `SELECT * FROM 
         tpersona,

@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 // modelos
 const m_solicitud_1 = __importDefault(require("../models/m_solicitud"));
+const m_cuarto_1 = __importDefault(require("../models/m_cuarto"));
 const ControladorSolicitud = {
     enviarSolicitud: async (req, res) => {
         let respuesta = {
@@ -77,13 +78,18 @@ const ControladorSolicitud = {
         modeloSolicitud.setIdSolicita = token.id_usuario;
         modeloSolicitud.setIdSolicitud = id;
         let resultSolicitud = await modeloSolicitud.aceptarSolicitud();
-        await postgresql.cerrarConexion(cliente);
         if (resultSolicitud.rowCount === 1) {
+            let resultSolicitud2 = await modeloSolicitud.consultarSolicitud();
             respuesta = {
                 codigo_respuesta: 200,
                 tipo_mensaje: "success",
                 mensaje_respuesta: "solicitud aceptada"
             };
+            let cuarto = new m_cuarto_1.default(postgresql, cliente);
+            let resultCUarto = await cuarto.crearCuarto();
+            console.log(`id del cuarto ${resultCUarto.rows[0].id_cuarto}`);
+            console.log(`datos de la solicitud para crear los contactos `, resultSolicitud2.rows[0]);
+            await postgresql.cerrarConexion(cliente);
             res.status(200).json(respuesta);
         }
         else {

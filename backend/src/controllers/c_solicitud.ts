@@ -2,8 +2,9 @@ import { Request, Response } from "express"
 import respuestaServidor from "../interfaces/types/respuesta_servidor"
 // modelos
 import ModeloSolicitud from "../models/m_solicitud"
+import ModeloCuarto from "../models/m_cuarto"
 // utilidades
-import { QueryResult } from "pg"
+import { Query, QueryResult } from "pg"
 
 
 const ControladorSolicitud = {
@@ -83,13 +84,20 @@ const ControladorSolicitud = {
         modeloSolicitud.setIdSolicita=token.id_usuario
         modeloSolicitud.setIdSolicitud=id
         let resultSolicitud:QueryResult= await modeloSolicitud.aceptarSolicitud()
-        await postgresql.cerrarConexion(cliente)
+
         if(resultSolicitud.rowCount===1){
+            let resultSolicitud2:QueryResult= await modeloSolicitud.consultarSolicitud()
             respuesta={
                 codigo_respuesta:200,
                 tipo_mensaje:"success",
                 mensaje_respuesta:"solicitud aceptada"
             }
+            let cuarto:ModeloCuarto=new ModeloCuarto(postgresql,cliente)
+            let resultCUarto:QueryResult=await cuarto.crearCuarto()
+            console.log(`id del cuarto ${resultCUarto.rows[0].id_cuarto}`)
+            console.log(`datos de la solicitud para crear los contactos `,resultSolicitud2.rows[0])
+            
+            await postgresql.cerrarConexion(cliente)
             res.status(200).json(respuesta)
         }
         else{

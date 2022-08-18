@@ -81,6 +81,14 @@ class ModeloSolicitud {
         let datos = [id_solicita_numero, "e"];
         return await this.postgresql.query(this.cliente, sql, datos);
     }
+    async consultarSolicitud() {
+        let sql = `SELECT * FROM 
+        tsolicitud 
+        WHERE 
+        id_solicitud=$1`;
+        let datos = [this.id_solicitud];
+        return await this.postgresql.query(this.cliente, sql, datos);
+    }
     async consultarMisSolicitudes() {
         let sql = `SELECT * FROM 
         tpersona,
