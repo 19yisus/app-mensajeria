@@ -31,6 +31,10 @@ class ModeloContacto  implements contacto {
         this.estado_contacto=datos.estado_contacto
     }
 
+    set setIdUsuario(id:string){
+        this.id_usuario=id
+    }
+
     async crearContacto():Promise<QueryResult>{
         let sql: string = `INSERT INTO tcontacto(
             id_usuario,

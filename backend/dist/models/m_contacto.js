@@ -25,6 +25,9 @@ class ModeloContacto {
         this.contacto_id_usuario = datos.contacto_id_usuario;
         this.estado_contacto = datos.estado_contacto;
     }
+    set setIdUsuario(id) {
+        this.id_usuario = id;
+    }
     async crearContacto() {
         let sql = `INSERT INTO tcontacto(
             id_usuario,
