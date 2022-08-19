@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import moment from "moment";
 import { QueryResult } from "pg";
 import respuestaServidor from "../interfaces/types/respuesta_servidor";
+import ModeloContacto from "../models/m_contacto";
+import ModeloCuarto from "../models/m_cuarto";
 import ModeloMensaje from "../models/m_mensaje";
 
 let ControladorMensaje ={
@@ -53,13 +55,48 @@ let ControladorMensaje ={
 
     },
 
-    consultarMensajes: async (areq:Request,res:Response) => {},
+    consultarMensajes: async (req:Request,res:Response) => {
+        let respuesta:respuestaServidor={
+            codigo_respuesta:0,
+            tipo_mensaje:"",
+            mensaje_respuesta:"",
+        }
+        let { postgresql, cliente, token} = req.body
+        let { idCuarto } = req.params
+        let modeloContacto:ModeloContacto= new ModeloContacto(postgresql, cliente)
+        let modeloMensaje:ModeloMensaje=new ModeloMensaje(postgresql, cliente)
+        modeloContacto.setIdUsuario=token.id_usuario
+        modeloContacto.setIdCuarto=idCuarto
+        let resultContacto:QueryResult=await modeloContacto.consultarPorIdUsuarioYIdCuarto()
+        if(resultContacto.rowCount>0){
+            modeloMensaje.setIdCuarto=idCuarto
+            let resultMensaje:QueryResult=await modeloMensaje.consultarMensajesDelChat()
+            respuesta={
+                codigo_respuesta:200,
+                tipo_mensaje:"success",
+                mensaje_respuesta:"consulta completada",
+                datos_respuesta:{
+                    mensajes:resultMensaje.rows,
+                    totalMensajes:resultMensaje.rowCount
+                }
+            }
+            res.status(200).json(respuesta)
+        }
+        else{
+            respuesta={
+                codigo_respuesta:400,
+                tipo_mensaje:"danger",
+                mensaje_respuesta:"no se ha encontrado el chat",
+            }
+            res.status(400).json(respuesta)
+        }
+    },
 
-    paginarMensajes: async (areq:Request,res:Response) => {},
+    paginarMensajes: async (req:Request,res:Response) => {},
 
-    editarMensaje: async (areq:Request,res:Response) => {},
+    editarMensaje: async (req:Request,res:Response) => {},
 
-    borrarMensaje: async (areq:Request,res:Response) => {}
+    borrarMensaje: async (req:Request,res:Response) => {}
 
 
 

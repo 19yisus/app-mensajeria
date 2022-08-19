@@ -10,6 +10,7 @@ router.get("/",(req:Request,res:Response) => {
 })
 
 router.post("/enviar/:idCuarto",validarToken,crearConexionDBPG,ControladorMensaje.crearMensaje)
+router.get("/consultar/:idCuarto",validarToken,crearConexionDBPG,ControladorMensaje.consultarMensajes)
 
 
 

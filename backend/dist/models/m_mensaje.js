@@ -68,5 +68,19 @@ class ModeloMensaje {
         let datos = [id_cuarto_, id_usuario_, this.mensaje, this.fecha_mensaje, this.hora_mensaje, "1"];
         return this.postgresql.query(this.cliente, sql, datos);
     }
+    async consultarMensajesDelChat() {
+        let sql = `SELECT * FROM 
+        tpersona,
+        tusuario,
+        tmensaje
+        WHERE
+        tmensaje.id_cuarto=$1 AND
+        tusuario.id_usuario=tmensaje.id_usuario AND
+        tpersona.id_persona=tusuario.id_persona
+        `;
+        let id_cuarto_ = this.id_cuarto;
+        let datos = [id_cuarto_];
+        return this.postgresql.query(this.cliente, sql, datos);
+    }
 }
 exports.default = ModeloMensaje;

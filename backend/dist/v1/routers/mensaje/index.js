@@ -12,4 +12,5 @@ router.get("/", (req, res) => {
     res.status(200).send(req.baseUrl);
 });
 router.post("/enviar/:idCuarto", oauth_1.default, crear_conexion_db_pg_1.default, c_mensaje_1.default.crearMensaje);
+router.get("/consultar/:idCuarto", oauth_1.default, crear_conexion_db_pg_1.default, c_mensaje_1.default.consultarMensajes);
 exports.default = router;

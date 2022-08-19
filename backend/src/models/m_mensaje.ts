@@ -79,6 +79,21 @@ class ModeloMensaje implements mensaje{
         return this.postgresql.query(this.cliente,sql,datos)
     }
 
+    async consultarMensajesDelChat():Promise<QueryResult>{
+        let sql: string = `SELECT * FROM 
+        tpersona,
+        tusuario,
+        tmensaje
+        WHERE
+        tmensaje.id_cuarto=$1 AND
+        tusuario.id_usuario=tmensaje.id_usuario AND
+        tpersona.id_persona=tusuario.id_persona
+        `
+        let id_cuarto_=this.id_cuarto as unknown as number
+        let datos:[number]= [id_cuarto_]
+        return this.postgresql.query(this.cliente,sql,datos)
+    }
+
 
 }
 

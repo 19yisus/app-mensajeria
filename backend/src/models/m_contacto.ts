@@ -35,6 +35,10 @@ class ModeloContacto  implements contacto {
         this.id_usuario=id
     }
 
+    set setIdCuarto(id:string){
+        this.id_cuarto=id
+    }
+
     async crearContacto():Promise<QueryResult>{
         let sql: string = `INSERT INTO tcontacto(
             id_usuario,
@@ -56,7 +60,7 @@ class ModeloContacto  implements contacto {
         return this.postgresql.query(this.cliente,sql,datos)
     }
 
-    async consultarContactos(){
+    async consultarContactos():Promise<QueryResult>{
         let sql: string = `SELECT * FROM 
         tpersona,
         tusuario,
@@ -67,9 +71,21 @@ class ModeloContacto  implements contacto {
         tpersona.id_persona=tusuario.id_persona
         `
         let id_usuario_=this.id_usuario as unknown as number
+        let datos: number[]= [id_usuario_]
+        return this.postgresql.query(this.cliente,sql,datos)
+    }
+
+    async consultarPorIdUsuarioYIdCuarto():Promise<QueryResult>{
+        // SELECT * FROM tcontacto WHERE id_usuario=1 AND id_cuarto=3;
+        let sql: string = `SELECT * FROM 
+        tcontacto 
+        WHERE 
+        id_usuario=$1 AND 
+        id_cuarto=$2
+        `
+        let id_usuario_=this.id_usuario as unknown as number
         let id_cuarto_=this.id_cuarto as unknown as number
-        let contacto_id_usuario_=this.contacto_id_usuario as unknown as number
-        let datos: string[]= [this.id_usuario]
+        let datos: number[]= [id_usuario_,id_cuarto_]
         return this.postgresql.query(this.cliente,sql,datos)
     }
 

@@ -28,6 +28,9 @@ class ModeloContacto {
     set setIdUsuario(id) {
         this.id_usuario = id;
     }
+    set setIdCuarto(id) {
+        this.id_cuarto = id;
+    }
     async crearContacto() {
         let sql = `INSERT INTO tcontacto(
             id_usuario,
@@ -59,9 +62,20 @@ class ModeloContacto {
         tpersona.id_persona=tusuario.id_persona
         `;
         let id_usuario_ = this.id_usuario;
+        let datos = [id_usuario_];
+        return this.postgresql.query(this.cliente, sql, datos);
+    }
+    async consultarPorIdUsuarioYIdCuarto() {
+        // SELECT * FROM tcontacto WHERE id_usuario=1 AND id_cuarto=3;
+        let sql = `SELECT * FROM 
+        tcontacto 
+        WHERE 
+        id_usuario=$1 AND 
+        id_cuarto=$2
+        `;
+        let id_usuario_ = this.id_usuario;
         let id_cuarto_ = this.id_cuarto;
-        let contacto_id_usuario_ = this.contacto_id_usuario;
-        let datos = [this.id_usuario];
+        let datos = [id_usuario_, id_cuarto_];
         return this.postgresql.query(this.cliente, sql, datos);
     }
 }
