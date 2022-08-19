@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import ControladorContacto from "../../../controllers/c_contacto";
+import ControladorMensaje from "../../../controllers/c_mensaje";
 import crearConexionDBPG from "../../../middlewares/crear_conexion_db_pg"
 import validarToken from "../../../middlewares/oauth"
 
@@ -9,7 +9,8 @@ router.get("/",(req:Request,res:Response) => {
     res.status(200).send(req.baseUrl)
 })
 
-router.get("/mis-contactos",validarToken,crearConexionDBPG,ControladorContacto.consultarContactos)
-// router.delete("/eliminar/:id",validarToken,crearConexionDBPG)
+router.post("/enviar/:idCuarto",validarToken,crearConexionDBPG,ControladorMensaje.crearMensaje)
+
+
 
 export default router

@@ -14,6 +14,7 @@ const usuario_1 = __importDefault(require("./v1/routers/usuario"));
 const login_1 = __importDefault(require("./v1/routers/login"));
 const solicitud_1 = __importDefault(require("./v1/routers/solicitud"));
 const contacto_1 = __importDefault(require("./v1/routers/contacto"));
+const mensaje_1 = __importDefault(require("./v1/routers/mensaje"));
 let app = (0, express_1.default)();
 let rutaPublic = path_1.default.resolve(__dirname, "../public");
 dotenv_1.default.config({ path: path_1.default.resolve(__dirname, "../.env") });
@@ -35,5 +36,6 @@ app.use("/api/v1/persona", persona_1.default)
     .use("/api/v1/usuario", usuario_1.default)
     .use("/api/v1/login", login_1.default)
     .use("/api/v1/solicitud/", solicitud_1.default)
-    .use("/api/v1/contacto/", contacto_1.default);
+    .use("/api/v1/contacto/", contacto_1.default)
+    .use("/api/v1/mensaje/", mensaje_1.default);
 exports.default = app;

@@ -4,13 +4,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const c_contacto_1 = __importDefault(require("../../../controllers/c_contacto"));
+const c_mensaje_1 = __importDefault(require("../../../controllers/c_mensaje"));
 const crear_conexion_db_pg_1 = __importDefault(require("../../../middlewares/crear_conexion_db_pg"));
 const oauth_1 = __importDefault(require("../../../middlewares/oauth"));
 let router = (0, express_1.Router)();
 router.get("/", (req, res) => {
     res.status(200).send(req.baseUrl);
 });
-router.get("/mis-contactos", oauth_1.default, crear_conexion_db_pg_1.default, c_contacto_1.default.consultarContactos);
-// router.delete("/eliminar/:id",validarToken,crearConexionDBPG)
+router.post("/enviar/:idCuarto", oauth_1.default, crear_conexion_db_pg_1.default, c_mensaje_1.default.crearMensaje);
 exports.default = router;

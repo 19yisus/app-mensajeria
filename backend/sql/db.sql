@@ -72,11 +72,11 @@ CREATE TABLE IF NOT EXISTS tmensaje(
     id_usuario INTEGER NOT NULL,
     mensaje character varying(255) NOT NULL,
     fecha_mensaje DATE NOT NULL,
+    hora_mensaje TIME NOT NULL,
     estado_mensaje character(1) NOT NULL,
     constraint PK_id_mensaje primary key(id_mensaje),
     constraint FK_id_cuarto_tmensaje foreign key(id_cuarto) references tcuarto(id_cuarto) ON UPDATE CASCADE ON DELETE CASCADE,
     constraint FK_id_usuario_tmensaje foreign key(id_usuario) references tusuario(id_usuario) ON UPDATE CASCADE ON DELETE CASCADE
-
 );
 
 CREATE TABLE IF NOT EXISTS tcontacto(

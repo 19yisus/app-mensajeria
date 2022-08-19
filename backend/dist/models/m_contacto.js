@@ -55,7 +55,7 @@ class ModeloContacto {
         tcontacto 
         WHERE 
         tcontacto.id_usuario=$1 AND
-        tusuario.id_usuario=tcontacto.id_usuario AND
+        tusuario.id_usuario=tcontacto.contacto_id_usuario AND
         tpersona.id_persona=tusuario.id_persona
         `;
         let id_usuario_ = this.id_usuario;
