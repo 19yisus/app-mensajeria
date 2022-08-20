@@ -1,38 +1,45 @@
-<script setup >
+<script setup lang="ts">
+	import {CheckCircleIcon} from "@heroicons/vue/solid"
 	import {RouterLink} from 'vue-router'
 </script>
 
 <template>
-	<main class="bg-gray-800 h-screen flex flex-wrap justify-center items-center -space-y-28">
-		<div class="w-full bg-red-500">
-			<h1 class="text-center p-2 font-bold text-2xl text-white">Create Acount</h1>
+	<main class="bg-orange-500 h-screen overflow-hidden">
+		<header class="h-1/6 p-2">
+			<h2 class="flex justify-center font-bold text-white text-3xl mt-8 mx-auto">Registro de Personas</h2>
+		</header>
+		<div class="flex flex-col justify-start items-center space-y-2 h-5/6 md:h-2/6">
+			<div class="bg-gray-100 w-80 md:w-5/6 h-2/4 rounded-lg shadow-lg p-3 space-y-8">
+				<div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 md:gap-x-2 pt-4">
+					<input type="text" class="p-2 bg-gray-300 rounded-md border-2 outline-none focus:border-2 focus:border-orange-400 transition duration-300 ease-in-out" name="" id="" placeholder="Nombre de la persona">
+					<input type="text" class="p-2 bg-gray-300 rounded-md border-2 outline-none focus:border-2 focus:border-orange-400 transition duration-300 ease-in-out" name="" id="" placeholder="Apellido de la persona">
+					<input type="text" class="p-2 bg-gray-300 rounded-md border-2 outline-none focus:border-2 focus:border-orange-400 transition duration-300 ease-in-out md:col-span-2" name="" id="" placeholder="Ingrese su nombre de usuario">
+				</div>
+				<div class="flex items-center flex-wrap justify-center divide-y-2 divide-dashed divide-orange-500 space-y-3">
+					<button type="button" class="font-bold flex items-center text-white bg-green-400 hover:bg-green-500 transition duration-300 ease-in-out p-4 text-lg rounded-lg">
+						Registro <CheckCircleIcon class="w-6 h-6"/>
+					</button>
+					<div class="w-full p-2">
+						<ul class="flex flex-col list-disc list-inside text-blue-400 font-semibold">
+							<li>
+								<a class="underline" href="#">Recuperación de contraseña</a>
+							</li>
+							<li>
+								<a class="underline" href="#">Ir al login</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
 		</div>
-		<div class="bg-white rounded-lg w-56 md:w-3/5 md:h-96 ">
-			<form action="" class="container flex flex-col justify-center p-2 h-full space-y-6 md:space-y-8" autocomplete="off">
+		
 
-				<div class="grid gap-2 grid-cols-1 md:grid-cols-2">
-					<input type="text" name="username" id="username" placeholder="First name" class="rounded outline-none border-2 border-gray-400 focus:border-green-500 focus:transition focus:duration-300 p-1 md:p-2 ">
-					<!-- ./ Firstname input  -->
-					<input type="text" name="username" id="username" placeholder="Last name" class="rounded outline-none border-2 border-gray-400 focus:border-green-500 focus:transition focus:duration-300 p-1 md:p-2 ">
-					<!-- ./Lastname input -->
-					<input type="email" name="username" id="username" placeholder="Email" class="rounded outline-none border-2 border-gray-400 focus:border-green-500 focus:transition focus:duration-300 p-1 md:p-2 ">
-					<!-- ./Email input -->
-					<input type="tel" name="username" id="username" placeholder="Cellphone number" class="rounded outline-none border-2 border-gray-400 focus:border-green-500 focus:transition focus:duration-300 p-1 md:p-2 ">
-					<!-- ./Cellphone number input -->
-					<input type="text" name="username" id="username" placeholder="Username" class="rounded outline-none border-2 border-gray-400 focus:border-green-500 focus:transition focus:duration-300 p-1 md:p-2 ">
-					<!-- ./Username input -->
-					<input type="password" name="password" id="pass" placeholder="Password" class="rounded outline-none border-2 border-gray-400 focus:border-green-500 focus:transition focus:duration-300 p-1 md:p-2">
-					<!-- ./Password input -->
-				</div>
 
-				<div class="flex justify-center">
-					<button class="bg-green-500 hover:bg-green-600 hover:transition hover:duration-300 active:bg-green-700 rounded p-2 md:text-md font-bold text-white" type="button">Create</button>
-				</div>
-				<div class="flex flex-wrap justify-between mx-2">
-					<RouterLink to="/auth/Login" class="font-bold text-green-500 text-sm md:text-lg hover:underline">Login</RouterLink>
-					<RouterLink to="/auth/Reset-pass" class="font-bold text-red-500 text-sm md:text-lg hover:underline">Olvidé mi contraseña</RouterLink>
-				</div>
-			</form>
-		</div>
+		<!-- 
+			--- Datos necesarios para el registro de una persona
+			- NickName
+			- Name 
+			- Apellido
+		 -->
 	</main>
 </template>
