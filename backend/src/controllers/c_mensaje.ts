@@ -92,11 +92,27 @@ let ControladorMensaje ={
         }
     },
 
-    paginarMensajes: async (req:Request,res:Response) => {},
+    consultarMensajesSokect: async (postgresql:any,cliente:any,token:any,idCuarto:any) => {
+        let modeloContacto:ModeloContacto= new ModeloContacto(postgresql, cliente)
+        let modeloMensaje:ModeloMensaje=new ModeloMensaje(postgresql, cliente)
+        modeloContacto.setIdUsuario=token.id_usuario
+        modeloContacto.setIdCuarto=idCuarto
+        let resultContacto:QueryResult=await modeloContacto.consultarPorIdUsuarioYIdCuarto()
+        if(resultContacto.rowCount>0){
+            modeloMensaje.setIdCuarto=idCuarto
+            let resultMensaje:QueryResult=await modeloMensaje.consultarMensajesDelChat()
+            return resultMensaje.rows
+        }
+        else{
+            return []
+        }
+    },
 
-    editarMensaje: async (req:Request,res:Response) => {},
+    // paginarMensajes: async (req:Request,res:Response) => {},
 
-    borrarMensaje: async (req:Request,res:Response) => {}
+    // editarMensaje: async (req:Request,res:Response) => {},
+
+    // borrarMensaje: async (req:Request,res:Response) => {}
 
 
 

@@ -85,8 +85,23 @@ let ControladorMensaje = {
             res.status(400).json(respuesta);
         }
     },
-    paginarMensajes: async (req, res) => { },
-    editarMensaje: async (req, res) => { },
-    borrarMensaje: async (req, res) => { }
+    consultarMensajesSokect: async (postgresql, cliente, token, idCuarto) => {
+        let modeloContacto = new m_contacto_1.default(postgresql, cliente);
+        let modeloMensaje = new m_mensaje_1.default(postgresql, cliente);
+        modeloContacto.setIdUsuario = token.id_usuario;
+        modeloContacto.setIdCuarto = idCuarto;
+        let resultContacto = await modeloContacto.consultarPorIdUsuarioYIdCuarto();
+        if (resultContacto.rowCount > 0) {
+            modeloMensaje.setIdCuarto = idCuarto;
+            let resultMensaje = await modeloMensaje.consultarMensajesDelChat();
+            return resultMensaje.rows;
+        }
+        else {
+            return [];
+        }
+    },
+    // paginarMensajes: async (req:Request,res:Response) => {},
+    // editarMensaje: async (req:Request,res:Response) => {},
+    // borrarMensaje: async (req:Request,res:Response) => {}
 };
 exports.default = ControladorMensaje;

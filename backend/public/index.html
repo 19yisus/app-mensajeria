@@ -7,6 +7,88 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>probando lacarpeta public</h1>
+    
+    <form id="formularioChat" onsubmit="evitarSubmit(this)">
+        <span>Token User</span>
+        <input type="text" name="token" id="token" value=""/><br/>
+        <span>ID Cuarto</span>
+        <input type="text" name="idCuarto" id="idCuarto" value=""/><br/>
+        <span>Mensajes</span>
+        <textarea type="text" name="mensaje" id="mensaje"></textarea><br/>
+        <input type="button" onclick="enviarMensaje()" value="Enviar">
+        <div id="boxMensajes"></div><br/>
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./library/socketio_cliente.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        let socket = io.connect("http://localhost:8080",{forceNew:true})
+
+        socket.on("total-usuarios",totalUsuarios => {
+                console.log("total de usuarios conectatos ",totalUsuarios)
+        })
+        
+
+        function evitarSubmit(e){
+            e.preventDefault()
+        }
+
+        function enviarMensaje(){
+            let token = document.getElementById("token").value
+            let id_cuarto = document.getElementById("idCuarto").value
+            let mensaje = document.getElementById("mensaje").value
+            let url= `http://localhost:8080`
+            let headers={
+                "authorization": `Bearer ${token}`
+            }
+            const axiosCustom = axios.create({
+                baseURL: url,
+                headers
+            })
+            let body={
+                    id_cuarto,
+                    mensaje
+            }
+            axiosCustom.post(`/api/v1/mensaje/enviar/${id_cuarto}`,body)
+            .then(res => {
+                let resposeDataServer=JSON.parse(JSON.stringify(res.data))
+                let datosSokect={
+                    token,
+                    id_cuarto
+                }
+                socket.emit("consultar-mensajes-chat",datosSokect)
+                // console.log(`datos servidor => ${resposeDataServer}`)
+            })
+            .catch(err => {
+                console.error("error en el servidor => ",err)
+            })
+        }
+        function cargarMensajes(){
+            let token = document.getElementById("token").value
+            let id_cuarto = document.getElementById("idCuarto").value
+            let datosSokect={
+                token,
+                id_cuarto
+            }
+            socket.emit("consultar-mensajes-chat",datosSokect)
+            socket.on("obtener-mensajes-chat",mensajes => {
+                console.log("datos resividos => ",mensajes)
+                imprimirMensajesDom(mensajes)
+            })
+
+            
+        }
+
+        function imprimirMensajesDom(mensajes){
+            let boxMensajes = document.getElementById("boxMensajes")
+            let htmlArrayMensaje= mensajes.map(mensaje=> {
+                return `<div>${mensaje.mensaje}</div>`
+            })
+            let htmlJoinMensaje=htmlArrayMensaje.join("")
+            boxMensajes.innerHTML=htmlJoinMensaje
+        }
+        
+        cargarMensajes()
+    </script>
 </body>
 </html>
