@@ -1,11 +1,5 @@
 version: '20.10.17'
 services:
-  api:
-    build: .
-    ports:
-      - "5000:8080"
-    links:
-      - "postgres"
   postgres:
     image: postgres:14
     ports:
@@ -13,6 +7,6 @@ services:
     environment:
       - POSTGRES_PASSWORD=1234
       - POSTGRES_USER=postgres
-      - POSTGRES_DB=app_mensajeria_prod
+      - POSTGRES_DB=app_mensajeria_dev
     volumes:
       - ./backend/sql:/home/app

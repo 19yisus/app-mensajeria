@@ -1,7 +1,8 @@
 version: '20.10.17'
 services:
   api:
-    build: .
+    build:
+      context: ./Dockerfile-dev
     ports:
       - "5000:8080"
     links:
@@ -13,6 +14,6 @@ services:
     environment:
       - POSTGRES_PASSWORD=1234
       - POSTGRES_USER=postgres
-      - POSTGRES_DB=app_mensajeria_prod
+      - POSTGRES_DB=app_mensajeria_dev
     volumes:
       - ./backend/sql:/home/app
