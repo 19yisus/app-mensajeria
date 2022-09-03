@@ -1,6 +1,6 @@
 
 <img  style="display:block;width: 250px;height: 200px;margin-left: auto;margin-right:auto;" src="./recursos_readme/yurucamp_logo.png"/>
-<h1 style="border:none"><center>CodeCamp Software</center></h1>
+<h1 style="border:none"><center>AniCode Software</center></h1>
 
 # Documentación del proyecto
 
