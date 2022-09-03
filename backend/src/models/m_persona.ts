@@ -45,7 +45,7 @@ class ModeloPersona implements personaInterface {
     }
 
     async registrar():Promise<QueryResult>{
-        let sql:string = "INSERT INTO tpersona(nick_name,nombre,apellido,estado_persona,fecha_creacion) VALUES ($1,$2,$3,$4,$5);"
+        let sql:string = "INSERT INTO tpersona(nick_name,nombre,apellido,estado_persona,fecha_creacion) VALUES ($1,$2,$3,$4,$5) RETURNING id_persona;"
         let fecha : string = moment().format("YYYY-MM-DD")
         let datos:string[]=[this.nick_name,this.nombre,this.apellido,'1',fecha]
         return await this.postgresql.query(this.cliente,sql,datos)
