@@ -38,6 +38,7 @@ let ControladorPersona = {
                     codigo_respuesta: 200,
                     tipo_mensaje: "success",
                     mensaje_respuesta: "registro completado",
+                    datos_respuesta: result.rows
                 };
                 await postgresql.cerrarConexion(cliente);
                 res.status(200).json(respuesta);
