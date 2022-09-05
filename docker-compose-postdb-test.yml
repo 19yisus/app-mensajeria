@@ -1,0 +1,12 @@
+version: '20.10.17'
+services:
+  postgres:
+    image: postgres:14
+    ports:
+      - "5001:5432"
+    environment:
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=app_mensajeria_test
+    volumes:
+      - ./backend/sql:/home/app
