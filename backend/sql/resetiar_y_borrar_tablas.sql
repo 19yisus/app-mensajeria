@@ -3,14 +3,14 @@
 -- ALTER SEQUENCE <tabla>_<id>_seq RESTART WITH 1
 
 
-DELETE tpersona;
-DELETE timagen_avatar;
-DELETE ttipo_solicitud;
-DELETE tusuario;
-DELETE tsolicitud;
-DELETE tcuarto;
-DELETE tmensaje;
-DELETE tcontacto;
+DELETE FROM tpersona;
+DELETE FROM timagen_avatar;
+DELETE FROM ttipo_solicitud;
+DELETE FROM tusuario;
+DELETE FROM tsolicitud;
+DELETE FROM tcuarto;
+DELETE FROM tmensaje;
+DELETE FROM tcontacto;
 
 ALTER SEQUENCE tpersona_id_persona_seq RESTART WITH 1;
 ALTER SEQUENCE timagen_avatar_id_imagen_avatar_seq RESTART WITH 1;

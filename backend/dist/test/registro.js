@@ -1,11 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const persona_1 = require("./helpers/persona");
+const usuario_1 = require("./helpers/usuario");
+// TODO hacer en este fichero el proceso de registro de usuario y de login
+// TODO este fichero se encargara de emular el registro completo de usuario y login
 beforeEach(async () => {
     await persona_1.helper.precargarDatos();
+    await usuario_1.helper.precargarDatos();
 });
-// afterEach(async () => {
-// })
 describe("test del modulo persona", () => {
     test("registro de persona con todos los datos", async () => {
         let datos = {
@@ -17,7 +19,7 @@ describe("test del modulo persona", () => {
         let response = await persona_1.api.post("/api/v1/persona/registrar")
             .send(datos)
             .expect(200);
-        console.log(response.body);
+        // console.log(response.body)
         expect(response.body.datos_respuesta.length).toBe(1);
     });
     test("registro de persona enviando datos vacios", async () => {

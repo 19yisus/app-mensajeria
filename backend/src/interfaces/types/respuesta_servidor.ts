@@ -4,7 +4,7 @@ interface respuestaServidor{
     tipo_mensaje:string,
     mensaje_respuesta:string,
     detalle_respuesta?:object,
-    datos_respuesta?:object
+    datos_respuesta?:object,
     token?:string
 }
 

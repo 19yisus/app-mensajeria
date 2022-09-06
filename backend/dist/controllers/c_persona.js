@@ -10,6 +10,8 @@ let ControladorPersona = {
             codigo_respuesta: 0,
             tipo_mensaje: "",
             mensaje_respuesta: "",
+            datos_respuesta: [],
+            detalle_respuesta: {}
         };
         let { postgresql, cliente } = req.body;
         let { nick_name, nombre, apellido } = req.body;
@@ -32,18 +34,54 @@ let ControladorPersona = {
             res.status(400).json(respuesta);
         }
         if (result.rowCount === 0) {
-            result = await persona_modelo.registrar();
-            if (result.rowCount > 0) {
+            let estado = true;
+            let erroresCampos = [];
+            if (!ControladorPersona.validarTexto(nick_name) && !ControladorPersona.validarNumero(nick_name)) {
+                estado = false;
+                erroresCampos.push("el nickname al menos debe terner numero o letras");
+            }
+            if (!ControladorPersona.validarTexto(nombre)) {
+                estado = false;
+                erroresCampos.push("el nombre no puede estar vacion");
+            }
+            if (!ControladorPersona.validarTexto(apellido)) {
+                estado = false;
+                erroresCampos.push("el epellido no puede estar vacion");
+            }
+            if (estado === true) {
+                result = await persona_modelo.registrar();
+                if (result.rowCount > 0) {
+                    respuesta = {
+                        codigo_respuesta: 200,
+                        tipo_mensaje: "success",
+                        mensaje_respuesta: "registro completado",
+                        datos_respuesta: result.rows
+                    };
+                    await postgresql.cerrarConexion(cliente);
+                    res.status(200).json(respuesta);
+                }
+            }
+            else {
                 respuesta = {
-                    codigo_respuesta: 200,
-                    tipo_mensaje: "success",
-                    mensaje_respuesta: "registro completado",
-                    datos_respuesta: result.rows
+                    codigo_respuesta: 400,
+                    tipo_mensaje: "danger",
+                    mensaje_respuesta: "error al registrar",
+                    detalle_respuesta: {
+                        errores: erroresCampos
+                    }
                 };
                 await postgresql.cerrarConexion(cliente);
-                res.status(200).json(respuesta);
+                res.status(400).json(respuesta);
             }
         }
+    },
+    validarTexto: (dato) => {
+        let expresion = /[a-zA-Z]/g;
+        return expresion.test(dato);
+    },
+    validarNumero: (dato) => {
+        let expresion = /[0-9]/g;
+        return expresion.test(dato);
     },
     consultarPorId: async (req, res) => {
         let respuesta = {
