@@ -7,6 +7,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const m_usuario_1 = __importDefault(require("../models/m_usuario"));
 // utilidades
 const cifrado_1 = __importDefault(require("../utils/cifrado"));
+const dotenv_1 = __importDefault(require("dotenv"));
+const path_1 = __importDefault(require("path"));
+dotenv_1.default.config({ path: path_1.default.resolve(__dirname, '../../.env') });
+let { NODE_ENV } = process.env;
 const ControladorUsuario = {
     registrar: async (req, res) => {
         let respuesta = {

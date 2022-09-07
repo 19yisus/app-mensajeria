@@ -4,7 +4,11 @@ import respuestaServidor from "../interfaces/types/respuesta_servidor"
 import ModeloUsuario from "../models/m_usuario"
 // utilidades
 import Cifrado from "../utils/cifrado"
+import dotEnv from "dotenv"
+import path from "path"
 import { QueryResult } from "pg"
+dotEnv.config({ path: path.resolve(__dirname, '../../.env') })
+let {NODE_ENV} = process.env
 
 
 const ControladorUsuario = {
@@ -15,6 +19,7 @@ const ControladorUsuario = {
             tipo_mensaje:"",
             mensaje_respuesta:"",
         }
+
         let { postgresql, cliente } = req.body
         let { 
             id_persona,
