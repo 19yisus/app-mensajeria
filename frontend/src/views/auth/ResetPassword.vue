@@ -1,21 +1,78 @@
-<script setup >
-	import {RouterLink} from 'vue-router'
+<script setup lang="ts">
+	import {UserIcon, PlusCircleIcon} from "@heroicons/vue/solid"
+	import { useStore } from '../../store/store'
+	import {RouterLink,useRouter} from 'vue-router'
+	import { reactive } from 'vue'
+	import axios from 'axios'
+	const storePinia = useStore()
+
+	interface loginState {
+		email: String,
+		password: String,
+		loading: boolean
+	}		
+
+	const state:loginState = reactive({
+		email: "",
+		password: "",
+		loading: false,
+	});
+	
+	const login = () =>{
+		axios.post(`${storePinia.baseURL}login/iniciar-sesion`, {
+			correo: state.email,
+			clave: state.password
+		},{
+			onUploadProgress(event){
+				state.loading = true;
+				console.log('hola')
+				console.log(event)
+			}
+		}).then( ({data}) =>{
+			state.loading = false;
+			
+			storePinia.alerta(data.mensaje_respuesta, data.codigo_respuesta)
+			if(data.codigo_respuesta != 200) return false;
+			storePinia.setToken(data.token)
+			useRouter().push({name: 'me'})
+		}).catch( (dataError) =>{
+			state.loading = false;
+			
+			storePinia.alerta(dataError.response.data.mensaje_respuesta, dataError.response.data.codigo_respuesta)
+		})
+	}
+
+	const clasesInput = "p-2 bg-gray-300 rounded-md border-2 outline-none focus:border-2 focus:border-orange-400 transition duration-300 ease-in-out"
+	const clasesButton = "font-bold flex items-center text-white bg-green-400 hover:bg-green-500 transition duration-300 ease-in-out p-4 text-lg rounded-lg"
 </script>
 
 <template>
-	<main class="bg-gray-800 h-screen flex flex-wrap justify-center items-center -space-y-28">
-		<div class="w-full bg-red-500">
-			<h1 class="text-center p-2 font-bold text-2xl text-white">Reset Password</h1>
-		</div>
-		<div class="bg-white rounded-lg w-56 md:w-3/5 md:h-96 h-72">
-			<form action="" class="container flex flex-col justify-center p-2 h-full space-y-6 md:space-y-8" autocomplete="off">
-				<input type="text" name="username" id="username" placeholder="Username" class="mt-2 rounded outline-none border-2 border-gray-400 focus:border-green-500 focus:transition focus:duration-300 p-1 md:p-2 w-full">
-				<div class="flex justify-center">
-					<button class="bg-green-500 hover:bg-green-600 hover:transition hover:duration-300 active:bg-green-700 rounded p-2 md:p-4 md:text-md font-bold text-white" type="button">Reset</button>
+	<main class="bg-orange-500 h-screen">
+		<header class="h-1/6 p-2">
+			<h2 class="flex justify-center font-bold text-white text-3xl mt-8 mx-auto">Login</h2>
+		</header>
+		<div class="flex flex-col justify-start items-center space-y-2 md:h-2/6">
+			<form @submit.prevent="login" class="bg-gray-100 w-80 md:w-5/6 rounded-lg shadow-lg p-3 space-y-8">
+				<div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 md:gap-x-2 pt-4">
+					<input type="email" v-model="state.email" required :class="clasesInput" name="email" id="email-form1" placeholder="Ingrese su correo">
+					<input type="password" v-model="state.password" required :class="clasesInput" name="clave" id="clave-form1" placeholder="Ingrese su clave">
 				</div>
-				<div class="flex flex-wrap justify-between mx-2">
-					<RouterLink to="/auth/Create-acount" class="font-bold text-green-500 text-sm md:text-lg hover:underline">Crear una cuenta</RouterLink>
-					<RouterLink to="/auth/Login" class="font-bold text-red-500 text-sm md:text-lg hover:underline">Login</RouterLink>
+				<div class="flex items-center flex-wrap justify-center divide-y-2 divide-dashed divide-orange-500 space-y-3">
+					<button type="submit" :class="clasesButton">
+						Login 
+						<UserIcon v-if="!state.loading" class="w-6 h-6"/>
+						<PlusCircleIcon v-else class="animate-spin w-6 h-6"/>
+					</button>
+					<div class="w-full p-2">
+						<ul class="flex flex-col list-disc list-inside text-blue-400 font-semibold">
+							<li>
+								<RouterLink to="Reset-pass" class="underline">Recuperación de contraseña</RouterLink>
+							</li>
+							<li>
+								<router-link to="Create-acount" class="underline">Crear cuenta</router-link>
+							</li>
+						</ul>
+					</div>
 				</div>
 			</form>
 		</div>
