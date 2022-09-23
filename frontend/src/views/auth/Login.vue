@@ -1,54 +1,40 @@
 <script setup lang="ts">
-	import {UserIcon} from "@heroicons/vue/solid"
-	// import { useStore } from '../../store/store'
-	import {RouterLink} from 'vue-router'
+	import {UserIcon, PlusCircleIcon} from "@heroicons/vue/solid"
+	import { useStore } from '../../store/store'
+	import {RouterLink,useRouter} from 'vue-router'
 	import { reactive } from 'vue'
 	import axios from 'axios'
-	import Swal from 'sweetalert2'
-	
+	const storePinia = useStore()
+
 	interface loginState {
 		email: String,
-		password: String
-	}
-
-	// const tienda = useStore()
-	// console.log(useStore)
-	
+		password: String,
+		loading: boolean
+	}		
 
 	const state:loginState = reactive({
 		email: "",
 		password: "",
+		loading: false,
 	});
-	
-	const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF9wZXJzb25hIjo1LCJpZF91c3VhcmlvIjozLCJub21icmUiOiJhbGZyZWRvIiwiYXBlbGxpZG8iOiJtb2xpbmEiLCJuaWNrbmFtZSI6Im1vbGluYWFhIiwiY29ycmVvIjoibW9saW5hQGdtYWlsLmNvbSIsImlhdCI6MTY2MzI1ODgxOH0.0H92ahRXfosfuOkMnWHVaHkH24kevDJndjrQ7RN2iOE"
 
-	const login = () =>{
-		axios.post("http:///localhost:8080/api/v1/login/iniciar-sesion", {
+	const login = async () =>{
+		await axios.post(`${storePinia.baseURL}login/iniciar-sesion`, {
 			correo: state.email,
 			clave: state.password
+		},{
+			onUploadProgress(event){ state.loading = true;}
 		}).then( ({data}) =>{
-			alerta(data.mensaje_respuesta, data.codigo_respuesta)
+			state.loading = false;
+			storePinia.alerta(data.mensaje_respuesta, data.codigo_respuesta)
 			if(data.codigo_respuesta != 200) return false;
-
-		}).catch( (dataError) => alerta(dataError.response.data.mensaje_respuesta, dataError.response.data.codigo_respuesta))
-	}
-
-	const alerta = (title, icon) =>{
-		const Toast = Swal.mixin({
-			toast: true,
-			position: 'top-end',
-			showConfirmButton: false,
-			timer: 3000,
-			timerProgressBar: true,
-			didOpen: (toast) =>{
-				toast.addEventListener('mouseenter', Swal.stopTimer)
-				toast.addEventListener('mouseleave', Swal.resumeTimer)
+			storePinia.setToken(data.token)
+			useRouter().push("/me")
+		}).catch( (dataError) =>{
+			state.loading = false;
+			if(dataError.response.data){
+				storePinia.alerta(dataError.response.data.mensaje_respuesta, dataError.response.data.codigo_respuesta)
 			}
-		})
-
-		Toast.fire({
-			icon: (icon == 200) ? "success" : "error",
-			title: title
 		})
 	}
 
@@ -69,12 +55,14 @@
 				</div>
 				<div class="flex items-center flex-wrap justify-center divide-y-2 divide-dashed divide-orange-500 space-y-3">
 					<button type="submit" :class="clasesButton">
-						Login <UserIcon class="w-6 h-6"/>
+						Login 
+						<UserIcon v-if="!state.loading" class="w-6 h-6"/>
+						<PlusCircleIcon v-else class="animate-spin w-6 h-6"/>
 					</button>
 					<div class="w-full p-2">
 						<ul class="flex flex-col list-disc list-inside text-blue-400 font-semibold">
 							<li>
-								<a class="underline" href="#">Recuperación de contraseña</a>
+								<RouterLink to="Reset-pass" class="underline">Recuperación de contraseña</RouterLink>
 							</li>
 							<li>
 								<router-link to="Create-acount" class="underline">Crear cuenta</router-link>

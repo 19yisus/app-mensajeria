@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,27 +6,38 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      meta:{ requireAuth: true, },
+      component: () => import('@/views/HomeView.vue')
     },
     {
       path: '/auth/login',
       name: 'Login',
-      component: () => import('../views/auth/Login.vue')
+      meta:{ requireAuth: false},
+      component: () => import('@/views/auth/Login.vue')
     },
     {
       path: '/auth/Create-acount',
       name: 'Create-acount',
-      component: () => import('../views/auth/CreateAcount.vue')
+      meta:{ requireAuth: false},
+      component: () => import('@/views/auth/CreateAcount.vue')
     },
     {
       path: '/auth/Reset-pass',
       name: 'Reset-pass',
-      component: () => import('../views/auth/ResetPassword.vue')
+      meta:{ requireAuth: false},
+      component: () => import('@/views/auth/ResetPassword.vue')
     },
     {
       path: '/about',
       name: 'about',
-      component: () => import('../views/AboutView.vue')
+      meta:{ requireAuth: false},
+      component: () => import('@/views/AboutView.vue')
+    },
+    {
+      path: '/me',
+      name: 'me',
+      meta:{ requireAuth: true},
+      component: () => import('@/views/private/me.vue')
     }
   ]
 })
