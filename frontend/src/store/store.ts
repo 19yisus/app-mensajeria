@@ -19,7 +19,7 @@ export const useStore = defineStore('store', {
       .then( response => {
         return response.data;
       }).catch( error =>{
-        store.alerta(error.data.mensaje_respuesta, error.data.codigo_respuesta)
+        store.alerta(error.response.data.mensaje_respuesta, error.response.data.codigo_respuesta)
       })
       return respuesta;
     },
@@ -32,7 +32,8 @@ export const useStore = defineStore('store', {
       .then( response => {
         return response.data;
       }).catch( error =>{
-        store.alerta(error.data.mensaje_respuesta, error.data.codigo_respuesta)
+        store.alerta(error.response.data.mensaje_respuesta, error.response.data.codigo_respuesta)
+        return [];
       })
       return respuesta;
     },
@@ -56,16 +57,11 @@ export const useStore = defineStore('store', {
     },
     requiresToken: () => {
       const store = useStore();
-      let token = localStorage.getItem('token_user');
+      let token = sessionStorage.getItem('token_user');
       if(token != null) store.token = token;
     },
-    setToken: (token: string) =>  localStorage.setItem("token_user", token),
-    setUserInfo: (datos: string) => localStorage.setItem("user_info", datos),
-    getUserInfo: () => {
-      if(localStorage.getItem("user_info")){
-        return JSON.stringify(localStorage.getItem("user_info"))
-      }
-      else return null;
-    }
+    setToken: (token: string) =>  sessionStorage.setItem("token_user", token),
+    setUserInfo: (datos: string) => sessionStorage.setItem("user_info", datos),
+    getUserInfo: () => JSON.parse(sessionStorage.getItem("user_info") || "[]")
   },
 })

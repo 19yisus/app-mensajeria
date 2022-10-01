@@ -12,7 +12,7 @@ app.use(router)
 router.beforeEach( async (to, from, next) =>{
   const store = useStore();
   console.log("Hola")
-  console.log(to.meta)
+  console.log(to)
   if(store.token == "") await store.requiresToken();
   if(to.meta.requireAuth && store.token == "") return next('/auth/login')
   if(!to.meta.requireAuth && store.token != "") return next({name: 'me'});
