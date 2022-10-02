@@ -1,3 +1,4 @@
+import { useStore } from '@/store/store';
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -6,9 +7,9 @@ const router = createRouter({
     // Vistas publicas
     {
       path: '/',
-      name: 'home',
+      name: 'about',
       meta:{requireAuth: false},
-      component: () => import("@/views/auth/Login.vue")      
+      component: () => import("@/views/AboutView.vue")      
     },
     {
       path: '/auth/login',
@@ -66,6 +67,16 @@ const router = createRouter({
       component: () => import('@/views/private/me.vue')
     }
   ]
+})
+
+router.beforeEach( async (to, from, next) =>{
+  const store = useStore();
+
+  if(to.name == undefined) return next({name: 'Login'})
+  if(store.token == "") await store.requiresToken();
+  if(to.meta.requireAuth && store.token == "") return next('/auth/login')
+  if(!to.meta.requireAuth && store.token != "") return next({name: 'me'});
+  return next();
 })
 
 export default router

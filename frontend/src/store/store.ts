@@ -13,7 +13,7 @@ export const useStore = defineStore('store', {
     // Consulta todas las rutas por metodo POST que solicite y que requieran un token para la autenticación
     RequestPostWithToken: async (url:string, data: object) =>{
       const store = useStore();
-      const respuesta = await axios.post(`${store.baseURL}${url}`,{data},{
+      const respuesta = await axios.post(`${store.baseURL}${url}`,data,{
         headers: {authorization: `bearer ${store.token}`}
       })
       .then( response => {

@@ -2,7 +2,6 @@
 	import { onMounted, reactive } from "vue"	
 	import { useStore } from '@/store/store'
 	import { RouterLink } from "vue-router";
-	import Modal_Component from "../../components/ModalComponent.vue";
 	const storePinia = useStore();
 
 	interface stateContacts{
