@@ -1,15 +1,16 @@
 <script setup lang="ts">
-  import {useRouter} from 'vue-router'
+  import { useRouter } from 'vue-router'
   import { useStore } from '@/store/store'
   import { onMounted } from '@vue/runtime-core';
   const storePinia = useStore();
-
+  let rutas = useRouter();
   console.log(storePinia.token)
 
   const logout = () =>{
-    storePinia.setToken("");
-    storePinia.setUserInfo("");
-    setTimeout( () => useRouter().push("/auth/login"), 2000)
+    sessionStorage.setItem("token_user","");
+    sessionStorage.setItem("user_info","");
+    // useRouter().replace("/auth/login")
+    setTimeout( () => rutas.push("/auth/login"), 2000)
   }
 
   onMounted( async () =>{

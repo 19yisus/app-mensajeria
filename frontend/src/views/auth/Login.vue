@@ -5,6 +5,7 @@
 	import { reactive } from 'vue'
 	import axios from 'axios'
 	const storePinia = useStore()
+	const router = useRouter();
 
 	interface loginState {
 		email: String,
@@ -29,7 +30,7 @@
 			storePinia.alerta(data.mensaje_respuesta, data.codigo_respuesta)
 			if(data.codigo_respuesta != 200) return false;
 			storePinia.setToken(data.token)
-			useRouter().push("/me")
+			router.push("/app")
 		}).catch( (dataError) =>{
 			state.loading = false;
 			if(dataError.response.data){
