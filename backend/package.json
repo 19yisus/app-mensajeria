@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=start node ./dist/index.js",
-    "dev": "cross-env NODE_ENV=dev node ./dist/index.js",
+    "dev": "cross-env NODE_ENV=test node ./dist/index.js",
     "dev:nm": "cross-env NODE_ENV=dev nodemon ./dist/index.js",
     "ts": "tsc",
     "ts:w": "tsc -w ",

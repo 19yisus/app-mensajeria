@@ -96,7 +96,7 @@ class ModeloSolicitud {
         tsolicitud 
         WHERE 
         tsolicitud.id_usuario_solicito=$1 AND
-        tusuario.id_usuario=tsolicitud.id_usuario_solicito AND 
+        tusuario.id_usuario=tsolicitud.id_solicita AND 
         tpersona.id_persona=tusuario.id_persona; `;
         let id_usuario_solicito = this.id_usuario_solicito;
         let datos = [id_usuario_solicito];

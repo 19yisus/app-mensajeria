@@ -109,7 +109,7 @@ class ModeloSolicitud  implements solicitud {
         tsolicitud 
         WHERE 
         tsolicitud.id_usuario_solicito=$1 AND
-        tusuario.id_usuario=tsolicitud.id_usuario_solicito AND 
+        tusuario.id_usuario=tsolicitud.id_solicita AND 
         tpersona.id_persona=tusuario.id_persona; `
         let id_usuario_solicito:number=this.id_usuario_solicito as unknown as number
         let datos:[number]=[id_usuario_solicito]
